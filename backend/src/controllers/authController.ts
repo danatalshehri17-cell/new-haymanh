@@ -29,29 +29,49 @@ export const register = async (req: Request, res: Response) => {
       });
     }
 
-    // Create demo user data
-    const demoUser = {
-      id: 'demo-user-' + Date.now(),
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'البريد الإلكتروني مستخدم بالفعل'
+      });
+    }
+
+    // Create new user
+    const user = new User({
       firstName,
       lastName,
       email,
+      password,
       phone: phone || '',
       avatar: firstName.charAt(0),
+      role: 'user',
       isActive: true,
       isVerified: true,
-      lastLogin: new Date(),
-      loginCount: 0,
-      createdAt: new Date()
-    };
+      interests: [],
+      preferences: {
+        emailNotifications: true,
+        pushNotifications: true,
+        language: 'ar'
+      },
+      loginCount: 0
+    });
+
+    await user.save();
 
     // Generate token
-    const token = generateToken(demoUser.id);
+    const token = generateToken((user._id as any).toString());
+
+    // Remove password from response
+    const userResponse = user.toObject();
+    delete (userResponse as any).password;
 
     return res.status(201).json({
       success: true,
-      message: 'تم إنشاء الحساب بنجاح (وضع تجريبي)',
+      message: 'تم إنشاء الحساب بنجاح',
       data: {
-        user: demoUser,
+        user: userResponse,
         token
       }
     });
