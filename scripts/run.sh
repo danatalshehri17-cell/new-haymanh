@@ -2,10 +2,17 @@
 
 echo "🚀 Starting Haymanh Success Initiative..."
 
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Change to project root
+cd "$PROJECT_ROOT"
+
 # Create .env file for frontend if it doesn't exist
 if [ ! -f "haymanh-success/.env" ]; then
     echo "📝 Creating .env file for frontend..."
-    echo "REACT_APP_API_URL=http://localhost:5000" > haymanh-success/.env
+    echo "REACT_APP_API_URL=http://localhost:5001" > haymanh-success/.env
     echo "✅ .env file created!"
 fi
 
