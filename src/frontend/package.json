@@ -1,0 +1,11 @@
+{
+  "name": "haymanh-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "cd ../../haymanh-success && npm start",
+    "build": "cd ../../haymanh-success && npm run build",
+    "test": "cd ../../haymanh-success && npm test"
+  },
+  "description": "Frontend wrapper for Haymanh Success Initiative"
+}
