@@ -91,7 +91,7 @@ const Opportunities: React.FC = () => {
 
   const handleAddToSelected = async (opportunityId: string) => {
     if (!isAuthenticated) {
-      alert('يرجى تسجيل الدخول أولاً');
+      console.log('يرجى تسجيل الدخول أولاً');
       return;
     }
     
@@ -110,13 +110,13 @@ const Opportunities: React.FC = () => {
 
       if (response.ok) {
         setSelectedOpportunities(prev => new Set([...prev, opportunityId]));
-        alert('تم إضافة الفرصة بنجاح!');
+        console.log('تم إضافة الفرصة بنجاح!');
       } else {
-        alert('حدث خطأ في إضافة الفرصة');
+        console.log('حدث خطأ في إضافة الفرصة');
       }
     } catch (error) {
       console.error('Error adding opportunity:', error);
-      alert('حدث خطأ في إضافة الفرصة');
+      console.log('حدث خطأ في إضافة الفرصة');
     } finally {
       setLoading(null);
     }

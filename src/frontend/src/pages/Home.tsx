@@ -835,16 +835,16 @@ const Home: React.FC = () => {
 
   const handleNewsletterSubscribe = async () => {
     if (!newsletterEmail || !newsletterEmail.includes('@')) {
-      alert(t('emailRequired'));
+      console.log(t('emailRequired'));
       return;
     }
     
     try {
       // هنا يمكن إضافة منطق إرسال البريد الإلكتروني للباك اند
-      alert(t('newsletterSuccess'));
+      console.log(t('newsletterSuccess'));
       setNewsletterEmail('');
     } catch (error) {
-      alert(t('newsletterError'));
+      console.log(t('newsletterError'));
     }
   };
 

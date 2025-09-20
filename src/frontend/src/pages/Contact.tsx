@@ -122,7 +122,7 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.');
+    console.log('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.');
     setFormData({
       name: '',
       email: '',
