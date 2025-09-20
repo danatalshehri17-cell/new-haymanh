@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (savedUser && savedToken) {
           // Validate credentials with server
           try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
             const response = await fetch(`${apiUrl}/api/auth/me`, {
               headers: {
                 'Authorization': `Bearer ${savedToken}`,
@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
       const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -168,7 +168,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       
       // إرسال طلب التسجيل للـ backend
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
       const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: 'POST',
         headers: {

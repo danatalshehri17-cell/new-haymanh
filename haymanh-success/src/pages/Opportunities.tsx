@@ -398,7 +398,7 @@ const Opportunities: React.FC = () => {
   useEffect(() => {
     const fetchOpportunities = async () => {
       try {
-        const response = await fetch('http://localhost:5001/api/opportunities');
+        const response = await fetch('https://new-haymanh.onrender.com/api/opportunities');
         if (response.ok) {
           const data = await response.json();
           setApiOpportunities(data.data.opportunities || []);
@@ -425,7 +425,7 @@ const Opportunities: React.FC = () => {
       
       try {
         const token = localStorage.getItem('haymanh_token');
-        const response = await fetch('http://localhost:5001/api/dashboard', {
+        const response = await fetch('https://new-haymanh.onrender.com/api/dashboard', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -874,7 +874,7 @@ const Opportunities: React.FC = () => {
         });
       } else {
         // إضافة الفرصة للمختارة
-        response = await fetch('http://localhost:5001/api/dashboard/select-opportunity', {
+        response = await fetch('https://new-haymanh.onrender.com/api/dashboard/select-opportunity', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -904,7 +904,7 @@ const Opportunities: React.FC = () => {
         setTimeout(async () => {
           try {
             const token = localStorage.getItem('haymanh_token');
-            const response = await fetch('http://localhost:5001/api/dashboard', {
+            const response = await fetch('https://new-haymanh.onrender.com/api/dashboard', {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
