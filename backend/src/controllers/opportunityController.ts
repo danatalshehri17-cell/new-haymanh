@@ -8,9 +8,15 @@ import Application from '../models/Application';
 export const getOpportunities = async (req: Request, res: Response) => {
   try {
     // Get opportunities from database
-    const opportunities = await Opportunity.find({})
+    let opportunities = await Opportunity.find({})
       .sort({ createdAt: -1 })
       .limit(50);
+
+    // If no opportunities in database, use demo data
+    if (opportunities.length === 0) {
+      console.log('No opportunities in database, using demo data');
+      return getOpportunitiesDemo(req, res);
+    }
 
     res.json({
       success: true,
@@ -295,7 +301,7 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
         benefits: ['فرص توظيف', 'شبكة علاقات', 'استشارات مهنية'],
         applicationDeadline: '2025-12-31T00:00:00.000Z',
         startDate: '2025-09-01T00:00:00.000Z',
-        maxApplicants: 1000,
+        maxApplicants: 6000,
         currentApplicants: 0,
         status: 'active',
         isActive: true,

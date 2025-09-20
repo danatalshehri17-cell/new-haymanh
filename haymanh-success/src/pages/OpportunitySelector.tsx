@@ -276,7 +276,8 @@ const OpportunitySelector: React.FC = () => {
       setLoading(true);
       
       // Fetch opportunities
-      const opportunitiesResponse = await fetch('https://new-haymanh.onrender.com/api/opportunities?limit=20');
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const opportunitiesResponse = await fetch(`${apiUrl}/api/opportunities?limit=20`);
       if (opportunitiesResponse.ok) {
         const opportunitiesData = await opportunitiesResponse.json();
         setOpportunities(opportunitiesData.data.opportunities || []);
@@ -297,7 +298,7 @@ const OpportunitySelector: React.FC = () => {
       }
 
       // Fetch programs
-      const programsResponse = await fetch('https://new-haymanh.onrender.com/api/programs?limit=20');
+      const programsResponse = await fetch(`${apiUrl}/api/programs?limit=20`);
       if (programsResponse.ok) {
         const programsData = await programsResponse.json();
         setPrograms(programsData.data.programs || []);
@@ -373,7 +374,7 @@ const OpportunitySelector: React.FC = () => {
       const token = localStorage.getItem('haymanh_token');
       
       if (type === 'opportunity') {
-        const response = await fetch('https://new-haymanh.onrender.com/api/dashboard/select-opportunity', {
+        const response = await fetch('http://localhost:5001/api/dashboard/select-opportunity', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -391,7 +392,7 @@ const OpportunitySelector: React.FC = () => {
           setTimeout(() => setMessage(null), 3000);
         }
       } else {
-        const response = await fetch('https://new-haymanh.onrender.com/api/dashboard/enroll', {
+        const response = await fetch('http://localhost:5001/api/dashboard/enroll', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

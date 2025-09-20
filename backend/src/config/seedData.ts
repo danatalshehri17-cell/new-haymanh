@@ -514,7 +514,7 @@ export const seedData = async (): Promise<void> => {
         benefits: ['فرص وظيفية', 'شبكة علاقات مهنية', 'تطوير المهارات'],
         applicationDeadline: new Date('2025-12-31'),
         startDate: new Date('2025-03-15'),
-        maxApplicants: 1000,
+        maxApplicants: 6000,
         tags: ['التوظيف', 'الجامعة', 'الفرص الوظيفية'],
         language: 'en',
         isFeatured: true,

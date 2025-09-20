@@ -674,7 +674,7 @@ const Dashboard: React.FC = () => {
   const fetchDashboardData = async () => {
     try {
       const token = localStorage.getItem('haymanh_token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       console.log('🔄 Fetching dashboard data...');
       
       if (!token) {
@@ -727,7 +727,7 @@ const Dashboard: React.FC = () => {
   const handleEnroll = async (programId: string) => {
     try {
       const token = localStorage.getItem('haymanh_token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       const response = await fetch(`${apiUrl}/api/dashboard/enroll`, {
         method: 'POST',
         headers: {
@@ -748,7 +748,7 @@ const Dashboard: React.FC = () => {
   const handleSelectOpportunity = async (opportunityId: string, notes?: string) => {
     try {
       const token = localStorage.getItem('haymanh_token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       const response = await fetch(`${apiUrl}/api/dashboard/select-opportunity`, {
         method: 'POST',
         headers: {

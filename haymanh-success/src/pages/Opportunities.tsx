@@ -391,6 +391,7 @@ const Opportunities: React.FC = () => {
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [selectedOpportunities, setSelectedOpportunities] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState<string | null>(null);
+  const [isLoadingOpportunities, setIsLoadingOpportunities] = useState(true);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [apiOpportunities, setApiOpportunities] = useState<any[]>([]);
 
@@ -398,13 +399,18 @@ const Opportunities: React.FC = () => {
   useEffect(() => {
     const fetchOpportunities = async () => {
       try {
-        const response = await fetch('https://new-haymanh.onrender.com/api/opportunities');
+        setIsLoadingOpportunities(true);
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+        const response = await fetch(`${apiUrl}/api/opportunities`);
         if (response.ok) {
           const data = await response.json();
+          console.log('Opportunities data:', data.data.opportunities);
           setApiOpportunities(data.data.opportunities || []);
         }
       } catch (error) {
         console.error('Error fetching opportunities:', error);
+      } finally {
+        setIsLoadingOpportunities(false);
       }
     };
     
@@ -425,7 +431,8 @@ const Opportunities: React.FC = () => {
       
       try {
         const token = localStorage.getItem('haymanh_token');
-        const response = await fetch('https://new-haymanh.onrender.com/api/dashboard', {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            const response = await fetch(`${apiUrl}/api/dashboard`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -874,7 +881,7 @@ const Opportunities: React.FC = () => {
         });
       } else {
         // إضافة الفرصة للمختارة
-        response = await fetch('https://new-haymanh.onrender.com/api/dashboard/select-opportunity', {
+        response = await fetch('http://localhost:5001/api/dashboard/select-opportunity', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -904,7 +911,8 @@ const Opportunities: React.FC = () => {
         setTimeout(async () => {
           try {
             const token = localStorage.getItem('haymanh_token');
-            const response = await fetch('https://new-haymanh.onrender.com/api/dashboard', {
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            const response = await fetch(`${apiUrl}/api/dashboard`, {
               headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -1023,7 +1031,7 @@ const Opportunities: React.FC = () => {
               <StatLabel>نوع من الفرص</StatLabel>
             </StatItem>
             <StatItem>
-              <StatNumber>1000+</StatNumber>
+              <StatNumber>6000+</StatNumber>
               <StatLabel>مستفيد</StatLabel>
             </StatItem>
             <StatItem>
@@ -1137,7 +1145,28 @@ const Opportunities: React.FC = () => {
 
       <OpportunitiesSection>
         <div className="container">
-          {filteredOpportunities.length === 0 ? (
+          {isLoadingOpportunities ? (
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '4rem', 
+              color: '#6B7280',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1rem'
+            }}>
+              <div style={{
+                width: '50px',
+                height: '50px',
+                border: '4px solid #E5E7EB',
+                borderTop: '4px solid #1E3A8A',
+                borderRadius: '50%',
+                animation: 'spin 1s linear infinite'
+              }}></div>
+              <h3>جاري تحميل الفرص...</h3>
+              <p>يرجى الانتظار بينما نجلب أحدث الفرص المتاحة</p>
+            </div>
+          ) : filteredOpportunities.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '3rem', color: '#6B7280' }}>
               <h3>لا توجد فرص تطابق الفلاتر المحددة</h3>
               <p>جرب تغيير الفلاتر أو مسح جميع الفلاتر</p>
@@ -1167,7 +1196,7 @@ const Opportunities: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <OpportunityImage type={opportunity.type}>
+                  <OpportunityImage type={typeof opportunity.type === 'string' ? opportunity.type : 'job'}>
                     {opportunity.image ? (
                       <img 
                         src={opportunity.image} 
@@ -1194,7 +1223,7 @@ const Opportunities: React.FC = () => {
                     )}
                   </OpportunityImage>
                   <OpportunityContent>
-                    <OpportunityType type={opportunity.type}>
+                    <OpportunityType type={typeof opportunity.type === 'string' ? opportunity.type : 'job'}>
                       {opportunity.type === 'scholarship' ? 'منحة دراسية' : 
                        opportunity.type === 'competition' ? 'مسابقة أكاديمية' : 
                        opportunity.type === 'volunteer' ? 'فرصة تطوعية' :

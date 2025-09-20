@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (savedUser && savedToken) {
           // Validate credentials with server
           try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
             const response = await fetch(`${apiUrl}/api/auth/me`, {
               headers: {
                 'Authorization': `Bearer ${savedToken}`,
@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
-      const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -118,9 +118,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const data = await response.json();
       console.log('📦 Response data:', data);
       
-      if (response.ok && data.success) {
+      if (response.ok && data.success && data.user) {
         console.log('✅ Login successful!', data);
-        const userData = data.data.user;
+        const userData = data.user;
         const userForContext: User = {
           id: userData.id,
           firstName: userData.firstName,
@@ -130,10 +130,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           avatar: userData.avatar || userData.firstName.charAt(0),
           level: 'مستخدم',
           joinDate: new Date(),
-          totalPoints: 0, // يمكن إضافة هذا لاحقًا
-          completedCourses: 0, // يمكن إضافة هذا لاحقًا
-          currentCourses: 0, // يمكن إضافة هذا لاحقًا
-          achievements: 0 // يمكن إضافة هذا لاحقًا
+          totalPoints: 0,
+          completedCourses: 0,
+          currentCourses: 0,
+          achievements: 0
         };
         
         console.log('👤 Setting user context:', userForContext);
@@ -141,9 +141,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         console.log('💾 Saving to localStorage...');
         localStorage.setItem('haymanh_user', JSON.stringify(userForContext));
-        localStorage.setItem('haymanh_token', data.data.token);
+        localStorage.setItem('haymanh_token', data.token);
         
-        console.log('🔑 Token saved:', data.data.token);
+        console.log('🔑 Token saved:', data.token);
         console.log('👤 User saved:', userForContext);
         console.log('✅ Login process completed successfully');
         return true;
@@ -168,7 +168,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       
       // إرسال طلب التسجيل للـ backend
-      const apiUrl = process.env.REACT_APP_API_URL || 'https://new-haymanh.onrender.com';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
@@ -184,9 +184,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       const data = await response.json();
       
-      if (response.ok && data.success) {
+      if (response.ok && data.success && data.user) {
         console.log('Registration successful!', data);
-        const newUserData = data.data.user;
+        const newUserData = data.user;
         const userForContext: User = {
           id: newUserData.id,
           firstName: newUserData.firstName,
@@ -204,8 +204,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         setUser(userForContext);
         localStorage.setItem('haymanh_user', JSON.stringify(userForContext));
-        localStorage.setItem('haymanh_token', data.data.token);
-        console.log('Register - Token saved:', data.data.token);
+        localStorage.setItem('haymanh_token', data.token);
+        console.log('Register - Token saved:', data.token);
         console.log('Register - User saved:', userForContext);
         return true;
       } else {

@@ -61,7 +61,7 @@ const SectionTitle = styled(motion.h2)`
   font-family: 'Cairo', sans-serif;
 `;
 
-const Opportunities: React.FC = () => {
+const OpportunitiesFixed: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const [isLoadingOpportunities, setIsLoadingOpportunities] = useState(true);
   const [apiOpportunities, setApiOpportunities] = useState<any[]>([]);
@@ -305,4 +305,4 @@ const Opportunities: React.FC = () => {
   );
 };
 
-export default Opportunities;
+export default OpportunitiesFixed;

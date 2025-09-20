@@ -1056,7 +1056,7 @@ const Home: React.FC = () => {
                 👥
               </StatIcon>
               <StatNumber>
-                <AnimatedCounter value={1000} suffix="+" duration={2} />
+                <AnimatedCounter value={6000} suffix="+" duration={2} />
               </StatNumber>
               <StatLabel>{t('studentsLabel')}</StatLabel>
             </StatItem>
