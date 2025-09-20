@@ -109,7 +109,7 @@ const OpportunitiesFixed: React.FC = () => {
       });
 
       if (response.ok) {
-        setSelectedOpportunities(prev => new Set([...prev, opportunityId]));
+        setSelectedOpportunities(prev => new Set(Array.from(prev).concat(opportunityId)));
         console.log('تم إضافة الفرصة بنجاح!');
       } else {
         console.log('حدث خطأ في إضافة الفرصة');

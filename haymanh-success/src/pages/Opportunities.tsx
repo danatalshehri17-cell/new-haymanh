@@ -902,7 +902,7 @@ const Opportunities: React.FC = () => {
           });
           setMessage({ type: 'success', text: '✅ تم إزالة الفرصة من القائمة المختارة!' });
         } else {
-          setSelectedOpportunities(prev => new Set([...Array.from(prev), opportunityId]));
+          setSelectedOpportunities(prev => new Set(Array.from(prev).concat(opportunityId)));
           setMessage({ type: 'success', text: '🎉 تم إضافة الفرصة للقائمة المختارة بنجاح! يمكنك مراجعتها في الداشبورد.' });
         }
         setTimeout(() => setMessage(null), 4000);
