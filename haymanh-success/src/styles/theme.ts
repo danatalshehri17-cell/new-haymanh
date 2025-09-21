@@ -71,7 +71,7 @@ const darkTheme = {
     border: '#334155',       // حدود داكنة
     success: '#22C55E',      // أخضر فاتح
     warning: '#F59E0B',      // برتقالي فاتح
-    error: '#EF4444'        // أحمر فاتح
+    error: '#EF4444',        // أحمر فاتح
   },
 };
 

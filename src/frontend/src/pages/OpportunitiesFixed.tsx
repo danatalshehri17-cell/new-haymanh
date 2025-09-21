@@ -2,47 +2,28 @@ import React, { useState, useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { theme, Theme } from '../styles/theme';
 
-// Theme
-const theme = {
-  colors: {
-    primary: '#1E3A8A',
-    secondary: '#10B981',
-    accent: '#F59E0B',
-    text: '#1F2937',
-    background: '#F9FAFB'
-  },
-  spacing: {
-    sm: '0.5rem',
-    md: '1rem',
-    lg: '1.5rem',
-    xl: '2rem'
-  },
-  borderRadius: {
-    small: '4px',
-    medium: '8px',
-    large: '12px'
-  },
-  shadows: {
-    small: '0 1px 3px rgba(0,0,0,0.12)',
-    medium: '0 4px 6px rgba(0,0,0,0.1)',
-    large: '0 10px 25px rgba(0,0,0,0.15)'
-  },
-  breakpoints: {
-    mobile: '480px',
-    tablet: '768px',
-    desktop: '1024px'
-  }
-};
+// Define opportunity type
+interface Opportunity {
+  _id?: string;
+  id?: string;
+  type?: string;
+  title?: string;
+  description?: string;
+  location?: string | { city?: string; address?: string };
+  duration?: string;
+  company?: { name?: string };
+}
 
 // Styled Components
-const OpportunitiesContainer = styled.div`
+const OpportunitiesContainer = styled.div<{ theme: Theme }>`
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.background};
   padding-top: 2rem;
 `;
 
-const OpportunitiesSection = styled.section`
+const OpportunitiesSection = styled.section<{ theme: Theme }>`
   padding: ${({ theme }) => theme.spacing.xl} 0;
   
   .container {
@@ -52,7 +33,7 @@ const OpportunitiesSection = styled.section`
   }
 `;
 
-const SectionTitle = styled(motion.h2)`
+const SectionTitle = styled(motion.h2)<{ theme: Theme }>`
   font-size: 2.5rem;
   font-weight: 800;
   text-align: center;
@@ -63,8 +44,8 @@ const SectionTitle = styled(motion.h2)`
 
 const OpportunitiesFixed: React.FC = () => {
   const { isAuthenticated } = useAuth();
-  const [isLoadingOpportunities, setIsLoadingOpportunities] = useState(true);
-  const [apiOpportunities, setApiOpportunities] = useState<any[]>([]);
+  const [isLoadingOpportunities, setIsLoadingOpportunities] = useState<boolean>(true);
+  const [apiOpportunities, setApiOpportunities] = useState<Opportunity[]>([]);
   const [selectedOpportunities, setSelectedOpportunities] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState<string | null>(null);
 
@@ -109,7 +90,7 @@ const OpportunitiesFixed: React.FC = () => {
       });
 
       if (response.ok) {
-        setSelectedOpportunities(prev => new Set(Array.from(prev).concat(opportunityId)));
+        setSelectedOpportunities((prev: Set<string>) => new Set(Array.from(prev).concat(opportunityId)));
         console.log('تم إضافة الفرصة بنجاح!');
       } else {
         console.log('حدث خطأ في إضافة الفرصة');
@@ -125,6 +106,14 @@ const OpportunitiesFixed: React.FC = () => {
   if (isLoadingOpportunities) {
     return (
       <ThemeProvider theme={theme}>
+        <style>
+          {`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}
+        </style>
         <OpportunitiesContainer>
           <OpportunitiesSection>
             <div className="container">
@@ -157,6 +146,14 @@ const OpportunitiesFixed: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
       <OpportunitiesContainer>
         <OpportunitiesSection>
           <div className="container">
@@ -179,7 +176,7 @@ const OpportunitiesFixed: React.FC = () => {
                 gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
                 gap: '1.5rem' 
               }}>
-                {apiOpportunities.map((opportunity, index) => {
+                {apiOpportunities.map((opportunity: Opportunity, index: number) => {
                   // تنظيف البيانات بشكل آمن
                   const safeData = {
                     id: opportunity._id || opportunity.id || `opp-${index}`,

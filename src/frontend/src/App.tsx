@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Programs from './pages/Programs';
-import Opportunities from './pages/Opportunities';
+import OpportunitiesFixed from './pages/OpportunitiesFixed';
 import Contact from './pages/Contact';
 import News from './pages/News';
 import Blog from './pages/Blog';
@@ -39,7 +39,7 @@ const AppContent: React.FC = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/programs" element={<Programs />} />
-                    <Route path="/opportunities" element={<Opportunities />} />
+                    <Route path="/opportunities" element={<OpportunitiesFixed />} />
                     <Route path="/news" element={<News />} />
                     <Route path="/blog" element={<Blog />} />
                     <Route path="/dashboard" element={<Dashboard />} />
