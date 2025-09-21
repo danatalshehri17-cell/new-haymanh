@@ -818,15 +818,18 @@ const Opportunities: React.FC = () => {
       typeMatch = opp.type === 'competition' || opp.type === 'hackathon';
     } else if (activeFilter === 'startup') {
       typeMatch = opp.type === 'startup' || opp.type === 'incubator';
+    } else if (activeFilter === 'conference') {
+      typeMatch = opp.type === 'conference' || opp.type === 'job_fair';
     } else {
       typeMatch = opp.type === activeFilter;
     }
     
-    const ageMatch = ageGroup === 'all' || opp.ageGroup === ageGroup;
-    const attendanceMatch = attendanceType === 'all' || opp.attendanceType === attendanceType;
-    const costMatch = costType === 'all' || opp.costType === costType;
-    const durationMatch = durationType === 'all' || opp.durationType === durationType;
-    const locationMatch = locationType === 'all' || opp.locationType === locationType;
+    // تطبيق الفلاتر المتقدمة فقط إذا كانت الخصائص موجودة
+    const ageMatch = ageGroup === 'all' || !opp.ageGroup || opp.ageGroup === ageGroup;
+    const attendanceMatch = attendanceType === 'all' || !opp.attendanceType || opp.attendanceType === attendanceType;
+    const costMatch = costType === 'all' || !opp.costType || opp.costType === costType;
+    const durationMatch = durationType === 'all' || !opp.durationType || opp.durationType === durationType;
+    const locationMatch = locationType === 'all' || !opp.locationType || opp.locationType === locationType;
     
     return typeMatch && ageMatch && attendanceMatch && costMatch && durationMatch && locationMatch;
   });

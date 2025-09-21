@@ -15,7 +15,7 @@ export const getOpportunities = async (req: Request, res: Response) => {
     // If no opportunities in database, use demo data
     if (opportunities.length === 0) {
       console.log('No opportunities in database, using demo data');
-      return getOpportunitiesDemo(req, res);
+      return await getOpportunitiesDemo(req, res);
     }
 
     res.json({
