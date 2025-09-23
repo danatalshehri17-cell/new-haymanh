@@ -241,7 +241,7 @@ const OurPrograms: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <StatNumber>6000+</StatNumber>
+              <StatNumber>100000+</StatNumber>
               <StatLabel>مشارك ناجح</StatLabel>
             </StatItem>
             <StatItem

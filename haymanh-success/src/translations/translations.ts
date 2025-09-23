@@ -30,8 +30,8 @@ export const translations = {
     continuousGrowthDesc: 'برامج متطورة لضمان استمرار تطورك ونموك',
     
     // Home Page Stats
-    studentsCount: '500+',
-    studentsLabel: 'طالب',
+    studentsCount: '100000+',
+    studentsLabel: 'مستفيد',
     programsCount: '50+',
     programsLabel: 'برنامج',
     successRate: '95%',
@@ -288,8 +288,8 @@ export const translations = {
     continuousGrowthDesc: 'Advanced programs to ensure your continued development and growth',
     
     // Home Page Stats
-    studentsCount: '500+',
-    studentsLabel: 'Students',
+    studentsCount: '100000+',
+    studentsLabel: 'Beneficiaries',
     programsCount: '50+',
     programsLabel: 'Programs',
     successRate: '95%',

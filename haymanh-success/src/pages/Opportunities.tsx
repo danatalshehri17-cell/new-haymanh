@@ -1034,7 +1034,7 @@ const Opportunities: React.FC = () => {
               <StatLabel>نوع من الفرص</StatLabel>
             </StatItem>
             <StatItem>
-              <StatNumber>6000+</StatNumber>
+              <StatNumber>100000+</StatNumber>
               <StatLabel>مستفيد</StatLabel>
             </StatItem>
             <StatItem>
