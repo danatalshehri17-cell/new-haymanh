@@ -7,24 +7,29 @@ import Application from '../models/Application';
 // @access  Public
 export const getOpportunities = async (req: Request, res: Response) => {
   try {
-    // Get opportunities from database
-    let opportunities = await Opportunity.find({})
-      .sort({ createdAt: -1 })
-      .limit(50);
+    // Skip database and use demo data directly for now
+    console.log('Using demo data directly');
+    return await getOpportunitiesDemo(req, res);
 
-    // If no opportunities in database, use demo data
-    if (opportunities.length === 0) {
-      console.log('No opportunities in database, using demo data');
-      return await getOpportunitiesDemo(req, res);
-    }
+    // Get opportunities from database (disabled for now)
+    // let opportunities = await Opportunity.find({})
+    //   .sort({ createdAt: -1 })
+    //   .limit(50);
 
-    res.json({
-      success: true,
-      data: {
-        opportunities,
-        total: opportunities.length
-      }
-    });
+    // // If no opportunities in database, use demo data
+    // if (opportunities.length === 0) {
+    //   console.log('No opportunities in database, using demo data');
+    //   return await getOpportunitiesDemo(req, res);
+    // }
+
+    // This code is now unreachable due to early return above
+    // res.json({
+    //   success: true,
+    //   data: {
+    //     opportunities,
+    //     total: opportunities.length
+    //   }
+    // });
   } catch (error: any) {
     console.error('Get opportunities error:', error);
     res.status(500).json({
