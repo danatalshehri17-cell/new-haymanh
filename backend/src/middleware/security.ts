@@ -2,7 +2,13 @@ import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { Request, Response, NextFunction } from 'express';
+import multer from 'multer';
 import config from '../config/config';
+
+// Extend Request interface to include file property
+interface MulterRequest extends Request {
+  file?: Express.Multer.File;
+}
 
 // CORS configuration
 export const corsOptions: cors.CorsOptions = {
@@ -116,7 +122,7 @@ export const requestSizeLimiter = (req: Request, res: Response, next: NextFuncti
 
 // File type validator
 export const validateFileType = (allowedTypes: string[]) => {
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return (req: MulterRequest, res: Response, next: NextFunction): void => {
     if (!req.file) {
       next();
       return;
@@ -136,7 +142,7 @@ export const validateFileType = (allowedTypes: string[]) => {
 
 // File size validator
 export const validateFileSize = (maxSize: number) => {
-  return (req: Request, res: Response, next: NextFunction): void => {
+  return (req: MulterRequest, res: Response, next: NextFunction): void => {
     if (!req.file) {
       next();
       return;
