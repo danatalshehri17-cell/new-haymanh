@@ -4,7 +4,6 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import connectDB from './config/database';
-import seedData from './config/seedData';
 import { securityMiddleware } from './middleware/security';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import routes from './routes';
@@ -60,14 +59,6 @@ const startServer = async () => {
   try {
     // Try to connect to database, but don't fail if it's not available
     await connectDB();
-    
-    // Seed database with sample data if connected
-    try {
-      await seedData();
-      console.log('✅ Database seeded successfully');
-    } catch (seedError) {
-      console.warn('⚠️ Database seeding failed, continuing without seed data:', seedError);
-    }
     
     // Start listening
     app.listen(PORT, () => {
