@@ -19,48 +19,24 @@ export const seedData = async (): Promise<void> => {
 
     console.log('🧹 Cleared existing data');
 
-    // Create admin user
-    const adminUser = await User.create({
-      firstName: 'مدير',
-      lastName: 'النظام',
-      email: 'admin@haymanh.com',
-      password: 'Admin123!@#',
-      role: 'admin',
+    // Create test user
+    const testUser = await User.create({
+      firstName: 'أحمد',
+      lastName: 'المستخدم',
+      email: 'user@haymanh.com',
+      password: 'User123!@#',
+      role: 'user',
       isVerified: true,
       isActive: true,
       phone: '0501234567',
-      bio: 'مدير النظام الرئيسي'
+      bio: 'مستخدم تجريبي'
     });
 
-    // Create instructor user
-    const instructorUser = await User.create({
-      firstName: 'أحمد',
-      lastName: 'المدرب',
-      email: 'instructor@haymanh.com',
-      password: 'Instructor123!@#',
-      role: 'instructor',
-      isVerified: true,
-      isActive: true,
-      phone: '0501234568',
-      bio: 'مدرب محترف في مجال التطوير',
-      experience: {
-        years: 5,
-        description: 'خبرة 5 سنوات في مجال تطوير الويب'
-      },
-      education: {
-        degree: 'بكالوريوس',
-        institution: 'جامعة الملك فهد',
-        graduationYear: 2019
-      },
-      skills: ['JavaScript', 'React', 'Node.js', 'Python'],
-      interests: ['التطوير', 'التدريب', 'التعليم']
-    });
-
-    // Create regular user
+    // Create another test user
     const regularUser = await User.create({
       firstName: 'محمد',
       lastName: 'المستخدم',
-      email: 'user@haymanh.com',
+      email: 'mohammed@haymanh.com',
       password: 'User123!@#',
       role: 'user',
       isVerified: true,
@@ -88,7 +64,7 @@ export const seedData = async (): Promise<void> => {
           amount: 1500,
           currency: 'SAR'
         },
-        instructor: instructorUser._id,
+        instructor: testUser._id,
         maxParticipants: 20,
         startDate: new Date('2024-03-01'),
         endDate: new Date('2024-06-01'),
@@ -157,7 +133,7 @@ export const seedData = async (): Promise<void> => {
           amount: 0,
           currency: 'free'
         },
-        instructor: instructorUser._id,
+        instructor: testUser._id,
         maxParticipants: 50,
         startDate: new Date('2024-04-15'),
         endDate: new Date('2024-04-15'),

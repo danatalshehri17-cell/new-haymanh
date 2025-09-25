@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useSettings } from '../contexts/SettingsContext';
+import { useAuth } from '../contexts/AuthContext';
 
 interface UserSettingsProps {
   isOpen: boolean;
@@ -203,6 +204,7 @@ const UserSettings: React.FC<UserSettingsProps> = ({ isOpen, onClose }) => {
   const { t, language, setLanguage } = useLanguage();
   const { theme, setTheme } = useTheme();
   const { settings, updateSetting, resetSettings } = useSettings();
+  const { isAuthenticated } = useAuth();
 
   const handleLanguageChange = (newLanguage: 'ar' | 'en') => {
     setLanguage(newLanguage);
@@ -260,6 +262,21 @@ const UserSettings: React.FC<UserSettingsProps> = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleResetSettings = () => {
+    // إعادة تعيين الإعدادات العامة
+    resetSettings();
+    
+    // إعادة تعيين اللغة للعربية
+    setLanguage('ar');
+    
+    // إعادة تعيين الثيم للفاتح
+    setTheme('light');
+    
+    // إعادة تعيين الرسوم المتحركة
+    document.body.style.removeProperty('--animation-duration');
+    document.body.style.removeProperty('--transition-duration');
+  };
+
   return (
     <SettingsOverlay isOpen={isOpen} onClick={onClose}>
       <SettingsModal onClick={(e) => e.stopPropagation()}>
@@ -310,23 +327,40 @@ const UserSettings: React.FC<UserSettingsProps> = ({ isOpen, onClose }) => {
           </SettingItem>
         </SettingsSection>
 
-        <SettingsSection>
-          <SectionTitle>{t('notifications')}</SectionTitle>
-          <SettingItem>
-            <SettingLabel>{t('enableNotifications')}</SettingLabel>
-            <ToggleSwitch
-              checked={settings.notifications}
-              onChange={(e) => handleNotificationChange(e.target.checked)}
-            />
-          </SettingItem>
-          <SettingItem>
-            <SettingLabel>{t('emailUpdates')}</SettingLabel>
-            <ToggleSwitch
-              checked={settings.emailUpdates}
-              onChange={(e) => handleEmailUpdatesChange(e.target.checked)}
-            />
-          </SettingItem>
-        </SettingsSection>
+        {isAuthenticated && (
+          <SettingsSection>
+            <SectionTitle>{t('notifications')}</SectionTitle>
+            <SettingItem>
+              <SettingLabel>{t('enableNotifications')}</SettingLabel>
+              <ToggleSwitch
+                checked={settings.notifications}
+                onChange={(e) => handleNotificationChange(e.target.checked)}
+              />
+            </SettingItem>
+            <SettingItem>
+              <SettingLabel>{t('emailUpdates')}</SettingLabel>
+              <ToggleSwitch
+                checked={settings.emailUpdates}
+                onChange={(e) => handleEmailUpdatesChange(e.target.checked)}
+              />
+            </SettingItem>
+          </SettingsSection>
+        )}
+
+        {!isAuthenticated && (
+          <SettingsSection>
+            <SectionTitle>الإعدادات الشخصية</SectionTitle>
+            <div style={{ 
+              padding: '16px', 
+              background: '#f0f9ff', 
+              borderRadius: '8px', 
+              textAlign: 'center',
+              color: '#0369a1'
+            }}>
+              <p>🔐 سجل دخولك للوصول إلى الإعدادات الشخصية مثل الإشعارات وتحديثات البريد الإلكتروني</p>
+            </div>
+          </SettingsSection>
+        )}
 
         <SettingsSection>
           <SectionTitle>{t('accessibility')}</SectionTitle>
@@ -361,7 +395,7 @@ const UserSettings: React.FC<UserSettingsProps> = ({ isOpen, onClose }) => {
           </SettingItem>
         </SettingsSection>
 
-        <ResetButton onClick={resetSettings}>
+        <ResetButton onClick={handleResetSettings}>
           {t('resetSettings')}
         </ResetButton>
       </SettingsModal>

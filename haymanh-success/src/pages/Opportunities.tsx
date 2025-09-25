@@ -400,7 +400,7 @@ const Opportunities: React.FC = () => {
     const fetchOpportunities = async () => {
       try {
         setIsLoadingOpportunities(true);
-        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+        const apiUrl = 'http://localhost:5001';
         const response = await fetch(`${apiUrl}/api/opportunities`);
         if (response.ok) {
           const data = await response.json();
@@ -431,7 +431,7 @@ const Opportunities: React.FC = () => {
       
       try {
         const token = localStorage.getItem('haymanh_token');
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            const apiUrl = 'http://localhost:5001';
             const response = await fetch(`${apiUrl}/api/dashboard`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -914,7 +914,7 @@ const Opportunities: React.FC = () => {
         setTimeout(async () => {
           try {
             const token = localStorage.getItem('haymanh_token');
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+            const apiUrl = 'http://localhost:5001';
             const response = await fetch(`${apiUrl}/api/dashboard`, {
               headers: {
                 'Authorization': `Bearer ${token}`,

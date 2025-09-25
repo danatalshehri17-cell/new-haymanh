@@ -276,7 +276,7 @@ const OpportunitySelector: React.FC = () => {
       setLoading(true);
       
       // Fetch opportunities
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const apiUrl = 'http://localhost:5001';
       const opportunitiesResponse = await fetch(`${apiUrl}/api/opportunities?limit=20`);
       if (opportunitiesResponse.ok) {
         const opportunitiesData = await opportunitiesResponse.json();

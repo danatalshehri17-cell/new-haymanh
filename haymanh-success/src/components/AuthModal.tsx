@@ -432,6 +432,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onModeChan
             setTimeout(() => {
               onClose();
               setSuccess('');
+              // إعادة تحميل الصفحة لتحديث حالة المستخدم
+              window.location.reload();
             }, 1500);
           }
         } catch (loginError: any) {
@@ -457,6 +459,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onModeChan
             setTimeout(() => {
               onClose();
               setSuccess('');
+              // إعادة تحميل الصفحة لتحديث حالة المستخدم
+              window.location.reload();
             }, 1500);
           }
         } catch (registerError: any) {

@@ -381,9 +381,14 @@ const Header: React.FC = () => {
                 </UserMenu>
               </>
             ) : (
-              <LoginButton onClick={handleLoginClick}>
-                {t('register')}
-              </LoginButton>
+              <>
+                <SettingsButton onClick={() => setShowSettings(true)}>
+                  ⚙️
+                </SettingsButton>
+                <LoginButton onClick={handleLoginClick}>
+                  {t('register')}
+                </LoginButton>
+              </>
             )}
             
             <MobileMenuButton onClick={toggleMenu}>
