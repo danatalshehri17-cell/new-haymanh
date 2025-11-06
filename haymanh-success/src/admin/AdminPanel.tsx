@@ -307,7 +307,8 @@ const AdminPanel = () => {
 
   const fetchContent = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/admin/content', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await fetch(`${apiUrl}/api/admin/content`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -326,7 +327,8 @@ const AdminPanel = () => {
   const fetchOpportunities = async () => {
     try {
       setLoadingOpportunities(true);
-      const response = await fetch('http://localhost:5001/api/opportunities', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await fetch(`${apiUrl}/api/opportunities`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -358,7 +360,8 @@ const AdminPanel = () => {
 
   const handlePublish = async (contentId: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/admin/content/${contentId}/publish`, {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await fetch(`${apiUrl}/api/admin/content/${contentId}/publish`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -375,7 +378,8 @@ const AdminPanel = () => {
 
   const handleUnpublish = async (contentId: string) => {
     try {
-      const response = await fetch(`http://localhost:5001/api/admin/content/${contentId}/unpublish`, {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await fetch(`${apiUrl}/api/admin/content/${contentId}/unpublish`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

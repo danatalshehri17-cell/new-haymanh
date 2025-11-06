@@ -78,7 +78,8 @@ const QuickLogin = () => {
     setLoading(true);
     try {
       // تسجيل دخول سريع بإيميل المبادرة
-      const response = await fetch('http://localhost:5001/api/auth/login', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

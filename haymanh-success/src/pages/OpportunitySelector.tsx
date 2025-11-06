@@ -276,7 +276,7 @@ const OpportunitySelector = () => {
       setLoading(true);
       
       // Fetch opportunities
-      const apiUrl = 'http://localhost:5001';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       const opportunitiesResponse = await fetch(`${apiUrl}/api/opportunities?limit=20`);
       if (opportunitiesResponse.ok) {
         const opportunitiesData = await opportunitiesResponse.json();
@@ -374,7 +374,8 @@ const OpportunitySelector = () => {
       const token = localStorage.getItem('haymanh_token');
       
       if (type === 'opportunity') {
-        const response = await fetch('http://localhost:5001/api/dashboard/select-opportunity', {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+        const response = await fetch(`${apiUrl}/api/dashboard/select-opportunity`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -392,7 +393,8 @@ const OpportunitySelector = () => {
           setTimeout(() => setMessage(null), 3000);
         }
       } else {
-        const response = await fetch('http://localhost:5001/api/dashboard/enroll', {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+        const response = await fetch(`${apiUrl}/api/dashboard/enroll`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,

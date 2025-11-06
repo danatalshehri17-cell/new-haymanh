@@ -291,9 +291,10 @@ const AddEditOpportunityForm = ({
     e.preventDefault();
     
     try {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
       const url = opportunity?._id 
-        ? `http://localhost:5001/api/opportunities/${opportunity._id}`
-        : 'http://localhost:5001/api/opportunities';
+        ? `${apiUrl}/api/opportunities/${opportunity._id}`
+        : `${apiUrl}/api/opportunities`;
       
       const method = opportunity?._id ? 'PUT' : 'POST';
       

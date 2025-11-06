@@ -100,7 +100,8 @@ const OpportunitiesManagement = () => {
   const fetchOpportunities = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5001/api/opportunities', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await fetch(`${apiUrl}/api/opportunities`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -157,7 +158,8 @@ const OpportunitiesManagement = () => {
 
     try {
       let response;
-      const url = `http://localhost:5001/api/opportunities/${selectedOpportunity._id}`;
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const url = `${apiUrl}/api/opportunities/${selectedOpportunity._id}`;
 
       switch (actionType) {
         case 'delete':

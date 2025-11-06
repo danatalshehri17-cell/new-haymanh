@@ -421,7 +421,7 @@ const Opportunities = () => {
     const fetchOpportunities = async () => {
       try {
         setIsLoadingOpportunities(true);
-        const apiUrl = 'http://localhost:5001';
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
         const response = await fetch(`${apiUrl}/api/opportunities`);
         if (response.ok) {
           const data = await response.json();
@@ -452,7 +452,7 @@ const Opportunities = () => {
       
       try {
         const token = localStorage.getItem('haymanh_token');
-            const apiUrl = 'http://localhost:5001';
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
             const response = await fetch(`${apiUrl}/api/dashboard`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -896,7 +896,8 @@ const Opportunities = () => {
       let response;
       if (isCurrentlySelected) {
         // إزالة الفرصة من المختارة
-        response = await fetch(`http://localhost:5001/api/dashboard/selected-opportunities/${backendId}`, {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+        response = await fetch(`${apiUrl}/api/dashboard/selected-opportunities/${backendId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -905,7 +906,8 @@ const Opportunities = () => {
         });
       } else {
         // إضافة الفرصة للمختارة
-        response = await fetch('http://localhost:5001/api/dashboard/select-opportunity', {
+        const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+        response = await fetch(`${apiUrl}/api/dashboard/select-opportunity`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -935,7 +937,7 @@ const Opportunities = () => {
         setTimeout(async () => {
           try {
             const token = localStorage.getItem('haymanh_token');
-            const apiUrl = 'http://localhost:5001';
+            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
             const response = await fetch(`${apiUrl}/api/dashboard`, {
               headers: {
                 'Authorization': `Bearer ${token}`,
