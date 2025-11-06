@@ -7,7 +7,7 @@ const createTransporter = () => {
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: false, // true for 465, false for other ports
     auth: {
-      user: process.env.SMTP_USER || 'noreply@haymanh.com',
+      user: process.env.SMTP_USER || 'mbadrt04@gmail.com',
       pass: process.env.SMTP_PASS || 'password',
     },
   });
@@ -19,7 +19,7 @@ export const sendWelcomeEmail = async (email: string, firstName: string): Promis
     const transporter = createTransporter();
     
     const mailOptions = {
-      from: `"Haymanh Success" <${process.env.SMTP_USER || 'noreply@haymanh.com'}>`,
+      from: `"Haymanh Success" <${process.env.SMTP_USER || 'mbadrt04@gmail.com'}>`,
       to: email,
       subject: 'مرحباً بك في منصة حيمانة للنجاح',
       html: `
@@ -72,7 +72,7 @@ export const sendPasswordResetEmail = async (email: string, firstName: string, r
     const resetUrl = `${process.env.CORS_ORIGIN || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
     
     const mailOptions = {
-      from: `"Haymanh Success" <${process.env.SMTP_USER || 'noreply@haymanh.com'}>`,
+      from: `"Haymanh Success" <${process.env.SMTP_USER || 'mbadrt04@gmail.com'}>`,
       to: email,
       subject: 'إعادة تعيين كلمة المرور',
       html: `
@@ -131,7 +131,7 @@ export const sendNotificationEmail = async (
     const transporter = createTransporter();
     
     const mailOptions = {
-      from: `"Haymanh Success" <${process.env.SMTP_USER || 'noreply@haymanh.com'}>`,
+      from: `"Haymanh Success" <${process.env.SMTP_USER || 'mbadrt04@gmail.com'}>`,
       to: email,
       subject: subject,
       html: `
@@ -197,7 +197,7 @@ export const sendApplicationStatusEmail = async (
     };
     
     const mailOptions = {
-      from: `"Haymanh Success" <${process.env.SMTP_USER || 'noreply@haymanh.com'}>`,
+      from: `"Haymanh Success" <${process.env.SMTP_USER || 'mbadrt04@gmail.com'}>`,
       to: email,
       subject: `تحديث حالة طلبك - ${opportunityTitle}`,
       html: `

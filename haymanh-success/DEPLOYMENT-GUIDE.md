@@ -179,7 +179,7 @@ netlify deploy --prod --dir=build
 ## 📞 الدعم
 
 للمساعدة في الرفع:
-- 📧 البريد الإلكتروني: support@haymanh.com
+- 📧 البريد الإلكتروني: mbadrt04@gmail.com
 - 🐛 تقرير الأخطاء: GitHub Issues
 - 📖 الوثائق: [Vercel Docs](https://vercel.com/docs)
 - 📖 الوثائق: [Netlify Docs](https://docs.netlify.com)

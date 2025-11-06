@@ -456,7 +456,7 @@ const itemVariants = {
   }
 };
 
-const Dashboard: React.FC = () => {
+const Dashboard = () => {
   const { user } = useAuth();
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);

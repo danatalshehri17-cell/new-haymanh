@@ -257,7 +257,7 @@ const itemVariants = {
   }
 };
 
-const OpportunitySelector: React.FC = () => {
+const OpportunitySelector = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState<'opportunities' | 'programs'>('opportunities');

@@ -441,7 +441,7 @@ eventSchema.index({ 'location.type': 1, status: 1 });
 eventSchema.index({ 'schedule.startDate': 1, status: 1 });
 eventSchema.index({ 'schedule.endDate': 1, status: 1 });
 eventSchema.index({ isFeatured: 1, status: 1 });
-eventSchema.index({ 'seo.slug': 1 });
+// eventSchema.index({ 'seo.slug': 1 }); // Removed - already indexed by unique: true
 eventSchema.index({ language: 1, status: 1 });
 eventSchema.index({ createdAt: -1 });
 

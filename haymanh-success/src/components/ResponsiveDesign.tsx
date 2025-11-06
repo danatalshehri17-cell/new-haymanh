@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ReactNode } from 'react';
 import styled from 'styled-components';
 // import { motion } from 'framer-motion';
 
 interface ResponsiveDesignProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const ResponsiveContainer = styled.div`
@@ -201,7 +201,7 @@ const ResponsiveOverlay = styled.div<{ isOpen: boolean }>`
   transition: all 0.3s ease;
 `;
 
-const ResponsiveDesign: React.FC<ResponsiveDesignProps> = ({ children }) => {
+const ResponsiveDesign= ({ children }) => {
   // const [isMobile, setIsMobile] = useState(false);
   // const [isTablet, setIsTablet] = useState(false);
   // const [isDesktop, setIsDesktop] = useState(false);

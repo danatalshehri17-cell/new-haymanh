@@ -263,7 +263,7 @@ const LoadMoreButton = styled.button`
   }
 `;
 
-const Blog: React.FC = () => {
+const Blog = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchFilters, setSearchFilters] = useState({
     category: '',

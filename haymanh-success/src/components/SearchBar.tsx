@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -134,7 +134,7 @@ const AdvancedFilters = styled(motion.div)`
   overflow: hidden;
 `;
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar= ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [filters, setFilters] = useState<SearchFilters>({
@@ -144,7 +144,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     price: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSearch(searchQuery, filters);
   };

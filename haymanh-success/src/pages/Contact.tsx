@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -106,21 +106,21 @@ const SubmitButton = styled.button`
   }
 `;
 
-const Contact: React.FC = () => {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.');
     setFormData({

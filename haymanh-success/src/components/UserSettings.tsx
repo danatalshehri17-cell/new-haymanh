@@ -200,7 +200,7 @@ const ResetButton = styled.button`
   }
 `;
 
-const UserSettings: React.FC<UserSettingsProps> = ({ isOpen, onClose }) => {
+const UserSettings= ({ isOpen, onClose }) => {
   const { t, language, setLanguage } = useLanguage();
   const { theme, setTheme } = useTheme();
   const { settings, updateSetting, resetSettings } = useSettings();

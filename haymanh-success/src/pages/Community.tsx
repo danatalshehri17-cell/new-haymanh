@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -307,7 +307,7 @@ const SubmitButton = styled.button`
   }
 `;
 
-const Community: React.FC = () => {
+const Community = () => {
   const [activeTab, setActiveTab] = useState('discussions');
   const [posts, setPosts] = useState([
     {
@@ -339,7 +339,7 @@ const Community: React.FC = () => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
   const [newComment, setNewComment] = useState('');
 
-  const handleCreatePost = (e: React.FormEvent) => {
+  const handleCreatePost = (e: FormEvent) => {
     e.preventDefault();
     if (newPost.title && newPost.content) {
       const post = {

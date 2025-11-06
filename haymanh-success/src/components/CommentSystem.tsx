@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -246,7 +246,7 @@ const RepliesContainer = styled.div`
   border-right: 2px solid ${({ theme }) => theme.colors.border};
 `;
 
-const CommentSystem: React.FC<CommentSystemProps> = ({
+const CommentSystem= ({
   comments,
   onAddComment,
   onLikeComment,
@@ -255,7 +255,7 @@ const CommentSystem: React.FC<CommentSystemProps> = ({
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState('');
 
-  const handleSubmitComment = (e: React.FormEvent) => {
+  const handleSubmitComment = (e: FormEvent) => {
     e.preventDefault();
     if (newComment.trim()) {
       onAddComment(newComment.trim());
@@ -263,7 +263,7 @@ const CommentSystem: React.FC<CommentSystemProps> = ({
     }
   };
 
-  const handleSubmitReply = (e: React.FormEvent, parentId: string) => {
+  const handleSubmitReply = (e: FormEvent, parentId: string) => {
     e.preventDefault();
     if (replyContent.trim()) {
       onAddComment(replyContent.trim(), parentId);

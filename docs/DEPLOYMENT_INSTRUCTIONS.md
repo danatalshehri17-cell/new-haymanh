@@ -162,7 +162,7 @@ git push origin main
 ## **📞 الدعم**
 
 للمساعدة:
-- 📧 البريد الإلكتروني: support@haymanh.com
+- 📧 البريد الإلكتروني: mbadrt04@gmail.com
 - 🐛 تقرير الأخطاء: GitHub Issues
 - 📖 الوثائق: [Vercel Docs](https://vercel.com/docs)
 - 📖 الوثائق: [Railway Docs](https://docs.railway.app)

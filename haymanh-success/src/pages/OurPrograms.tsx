@@ -153,7 +153,7 @@ const EnrollButton = styled.button<{ isFree?: boolean }>`
   }
 `;
 
-const OurPrograms: React.FC = () => {
+const OurPrograms = () => {
   const programs = [
     {
       id: '1',
@@ -224,6 +224,7 @@ const OurPrograms: React.FC = () => {
       </Header>
 
       <Content>
+        {/* eslint-disable-next-line react/no-unknown-property */}
         <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 1.5rem' }}>
           <StatsGrid>
             <StatItem

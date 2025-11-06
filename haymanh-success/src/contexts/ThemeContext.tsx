@@ -16,7 +16,7 @@ interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     const root = document.documentElement;
     
     Object.entries(currentTheme.colors).forEach(([key, value]) => {
-      root.style.setProperty(`--color-${key}`, value);
+      root.style.setProperty(`--color-${key}`, value as string);
     });
   }, [theme]);
 

@@ -366,7 +366,7 @@ programSchema.index({ level: 1, status: 1 });
 programSchema.index({ instructor: 1, status: 1 });
 programSchema.index({ startDate: 1, status: 1 });
 programSchema.index({ isFeatured: 1, status: 1 });
-programSchema.index({ 'seo.slug': 1 });
+// programSchema.index({ 'seo.slug': 1 }); // Removed - already indexed by unique: true
 programSchema.index({ language: 1, status: 1 });
 programSchema.index({ 'ratings.average': -1 });
 

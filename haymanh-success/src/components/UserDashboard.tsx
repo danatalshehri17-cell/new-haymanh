@@ -203,7 +203,7 @@ const ActivityTime = styled.div`
   color: ${({ theme }) => theme.colors.textLight};
 `;
 
-const UserDashboard: React.FC<UserDashboardProps> = ({ isVisible }) => {
+const UserDashboard= ({ isVisible }) => {
   const [user] = useState({
     name: 'أحمد محمد',
     email: 'ahmed@example.com',

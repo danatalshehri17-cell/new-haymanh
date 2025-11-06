@@ -3,6 +3,27 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 
+// Type definitions for styled components
+interface FilterButtonProps {
+  isActive: boolean;
+}
+
+interface OpportunityImageProps {
+  type: string;
+}
+
+interface OpportunityTypeProps {
+  type: string;
+}
+
+interface AddToSelectedButtonProps {
+  isSelected: boolean;
+}
+
+interface MessageContainerProps {
+  type: 'success' | 'error';
+}
+
 const OpportunitiesContainer = styled.div`
   padding-top: 80px;
 `;
@@ -53,7 +74,7 @@ const FilterContainer = styled.div`
   }
 `;
 
-const FilterButton = styled.button<{ isActive: boolean }>`
+const FilterButton = styled.button<FilterButtonProps>`
   background: ${({ theme, isActive }) => 
     isActive ? theme.colors.primary : theme.colors.surface};
   color: ${({ theme, isActive }) => 
@@ -181,7 +202,7 @@ const OpportunityCard = styled(motion.div)`
   }
 `;
 
-const OpportunityImage = styled.div<{ type: string }>`
+const OpportunityImage = styled.div<OpportunityImageProps>`
   height: 200px;
   background: ${({ theme, type }) => {
     switch (type) {
@@ -211,7 +232,7 @@ const OpportunityContent = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
 `;
 
-const OpportunityType = styled.span<{ type: string }>`
+const OpportunityType = styled.span<OpportunityTypeProps>`
   background: ${({ theme, type }) => {
     switch (type) {
       case 'scholarship': return theme.colors.primary;
@@ -267,7 +288,7 @@ const OpportunityButton = styled.button`
   }
 `;
 
-const AddToSelectedButton = styled.button<{ isSelected: boolean }>`
+const AddToSelectedButton = styled.button<AddToSelectedButtonProps>`
   background: ${({ theme, isSelected }) => 
     isSelected ? '#10B981' : '#F59E0B'};
   color: white;
@@ -365,7 +386,7 @@ const DetailText = styled.span`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const MessageContainer = styled(motion.div)<{ type: 'success' | 'error' }>`
+const MessageContainer = styled(motion.div)<MessageContainerProps>`
   position: fixed;
   top: 100px;
   right: 20px;
@@ -380,7 +401,7 @@ const MessageContainer = styled(motion.div)<{ type: 'success' | 'error' }>`
   border-left: 4px solid ${({ type }) => type === 'success' ? '#059669' : '#DC2626'};
 `;
 
-const Opportunities: React.FC = () => {
+const Opportunities = () => {
   const { isAuthenticated } = useAuth();
   const [activeFilter, setActiveFilter] = useState('all');
   const [ageGroup, setAgeGroup] = useState('all');

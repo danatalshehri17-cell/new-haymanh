@@ -8,6 +8,7 @@ interface User {
   email: string;
   avatar: string;
   level: string;
+  role: 'user' | 'moderator' | 'admin';
   joinDate: Date;
   totalPoints: number;
   completedCourses: number;
@@ -46,7 +47,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider= ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,40 +62,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Check if user data exists
         if (savedUser && savedToken) {
           // Validate credentials with server
-          try {
-            const apiUrl = 'http://localhost:5001';
-            const response = await fetch(`${apiUrl}/api/auth/me`, {
-              headers: {
-                'Authorization': `Bearer ${savedToken}`,
-                'Content-Type': 'application/json',
-              },
-            });
-            console.log('📡 Validation response status:', response.status);
-
-            if (response.ok) {
-              const userData = JSON.parse(savedUser);
-              setUser(userData);
-              console.log('✅ Token validation successful, user logged in');
-            } else {
-              // التوكن غير صالح، إزالة البيانات المحفوظة
-              localStorage.removeItem('haymanh_user');
-              localStorage.removeItem('haymanh_token');
-              console.log('❌ Token validation failed, removed from localStorage');
-            }
-          } catch (error) {
-            // خطأ في الاتصال، استخدام البيانات المحفوظة محليًا
-            const userData = JSON.parse(savedUser);
-            setUser(userData);
-            console.log('⚠️ Network error, using cached user data');
-          }
-        } else {
-          console.log('❌ No saved credentials found');
+          // استخدام البيانات المحفوظة محليًا مباشرة
+          const userData = JSON.parse(savedUser);
+          setUser(userData);
         }
       } catch (error) {
-        console.error('💥 Error checking auth status:', error);
+        console.error('Error checking auth status:', error);
       } finally {
         setIsLoading(false);
-        console.log('🏁 Auth check completed');
       }
     };
 
@@ -104,60 +79,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
-      const apiUrl = 'http://localhost:5001';
-      const response = await fetch(`${apiUrl}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      console.log('📡 Response status:', response.status);
-      console.log('📡 Response ok:', response.ok);
-      const data = await response.json();
-      console.log('📦 Response data:', data);
       
-      if (response.ok && data.success && data.data && data.data.user) {
-        console.log('✅ Login successful!', data);
-        const userData = data.data.user;
+      // محاكاة تسجيل الدخول - يمكنك تغيير هذه البيانات حسب الحاجة
+      const mockUsers = [
+        { email: 'mbadrt04@gmail.com', password: 'Admin123!@#', firstName: 'هيمنة', lastName: 'النجاح', role: 'admin' },
+        { email: 'admin@haymanh.com', password: '123456', firstName: 'أحمد', lastName: 'المدير', role: 'admin' },
+        { email: 'user@haymanh.com', password: '123456', firstName: 'محمد', lastName: 'المستخدم', role: 'user' },
+        { email: 'test@test.com', password: 'test123', firstName: 'سارة', lastName: 'الاختبار', role: 'user' }
+      ];
+      
+      const user = mockUsers.find(u => u.email === email && u.password === password);
+      
+      if (user) {
         const userForContext: User = {
-          id: userData.id,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          name: `${userData.firstName} ${userData.lastName}`,
-          email: userData.email,
-          avatar: userData.avatar || userData.firstName.charAt(0),
+          id: Math.random().toString(36).substr(2, 9),
+          firstName: user.firstName,
+          lastName: user.lastName,
+          name: `${user.firstName} ${user.lastName}`,
+          email: user.email,
+          avatar: user.firstName.charAt(0),
           level: 'مستخدم',
+          role: user.role as 'user' | 'moderator' | 'admin',
           joinDate: new Date(),
-          totalPoints: 0,
-          completedCourses: 0,
-          currentCourses: 0,
-          achievements: 0
+          totalPoints: Math.floor(Math.random() * 1000),
+          completedCourses: Math.floor(Math.random() * 10),
+          currentCourses: Math.floor(Math.random() * 5),
+          achievements: Math.floor(Math.random() * 20)
         };
         
-        console.log('👤 Setting user context:', userForContext);
         setUser(userForContext);
-        
-        console.log('💾 Saving to localStorage...');
         localStorage.setItem('haymanh_user', JSON.stringify(userForContext));
-        localStorage.setItem('haymanh_token', data.data.token);
+        localStorage.setItem('haymanh_token', 'mock_token_' + Math.random().toString(36).substr(2, 9));
         
-        console.log('🔑 Token saved:', data.data.token);
-        console.log('👤 User saved:', userForContext);
-        console.log('✅ Login process completed successfully');
         return true;
       } else {
-        console.log('❌ Login failed:', data.message);
-        throw new Error(data.message || 'البريد الإلكتروني أو كلمة المرور غير صحيحة');
+        throw new Error('بيانات الدخول غير صحيحة');
       }
     } catch (error) {
-      console.error('💥 Login error:', error);
-      if (error instanceof Error) {
-        console.error('💥 Error details:', error.message);
-        console.error('💥 Error stack:', error.stack);
-      }
-      throw error; // Re-throw the error to be handled by the component
+      throw error;
     } finally {
       setIsLoading(false);
     }
@@ -167,60 +126,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       
-      // إرسال طلب التسجيل للـ backend
-      const apiUrl = 'http://localhost:5001';
-      const response = await fetch(`${apiUrl}/api/auth/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          email: userData.email,
-          password: userData.password,
-        }),
-      });
-
-      const data = await response.json();
+      // محاكاة التسجيل - إنشاء مستخدم جديد
+      const userForContext: User = {
+        id: Math.random().toString(36).substr(2, 9),
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        name: `${userData.firstName} ${userData.lastName}`,
+        email: userData.email,
+        avatar: userData.firstName.charAt(0),
+        level: 'مستخدم جديد',
+        role: 'user',
+        joinDate: new Date(),
+        totalPoints: 0,
+        completedCourses: 0,
+        currentCourses: 0,
+        achievements: 0
+      };
       
-      if (response.ok && data.success && data.data && data.data.user) {
-        console.log('Registration successful!', data);
-        const newUserData = data.data.user;
-        const userForContext: User = {
-          id: newUserData.id,
-          firstName: newUserData.firstName,
-          lastName: newUserData.lastName,
-          name: `${newUserData.firstName} ${newUserData.lastName}`,
-          email: newUserData.email,
-          avatar: newUserData.avatar || newUserData.firstName.charAt(0),
-          level: 'مبتدئ',
-          joinDate: new Date(),
-          totalPoints: 0,
-          completedCourses: 0,
-          currentCourses: 0,
-          achievements: 0
-        };
-        
-        setUser(userForContext);
-        localStorage.setItem('haymanh_user', JSON.stringify(userForContext));
-        localStorage.setItem('haymanh_token', data.data.token);
-        console.log('Register - Token saved:', data.data.token);
-        console.log('Register - User saved:', userForContext);
-        return true;
-      } else {
-        console.log('Registration failed:', data.message);
-        // Store error message for display
-        if (data.errors && data.errors.length > 0) {
-          const errorMessages = data.errors.map((error: any) => error.message).join('، ');
-          throw new Error(errorMessages);
-        } else {
-          throw new Error(data.message || 'حدث خطأ أثناء إنشاء الحساب');
-        }
-      }
+      setUser(userForContext);
+      localStorage.setItem('haymanh_user', JSON.stringify(userForContext));
+      localStorage.setItem('haymanh_token', 'mock_token_' + Math.random().toString(36).substr(2, 9));
+      
+      return true;
     } catch (error) {
-      console.error('Register error:', error);
-      throw error; // Re-throw the error to be handled by the component
+      throw error;
     } finally {
       setIsLoading(false);
     }

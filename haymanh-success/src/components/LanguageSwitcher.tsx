@@ -30,7 +30,7 @@ const LanguageButton = styled.button<{ active: boolean }>`
   }
 `;
 
-const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ 
+const LanguageSwitcher= ({ 
   currentLanguage, 
   onLanguageChange 
 }) => {

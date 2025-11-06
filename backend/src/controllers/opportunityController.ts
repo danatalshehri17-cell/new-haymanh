@@ -2,61 +2,24 @@ import { Request, Response } from 'express';
 import Opportunity from '../models/Opportunity';
 import Application from '../models/Application';
 
-// @desc    Get all opportunities
-// @route   GET /api/opportunities
-// @access  Public
-export const getOpportunities = async (req: Request, res: Response) => {
+// Seed opportunities function
+const seedOpportunities = async () => {
   try {
-    // Skip database and use demo data directly for now
-    console.log('Using demo data directly');
-    return await getOpportunitiesDemo(req, res);
-
-    // Get opportunities from database (disabled for now)
-    // let opportunities = await Opportunity.find({})
-    //   .sort({ createdAt: -1 })
-    //   .limit(50);
-
-    // // If no opportunities in database, use demo data
-    // if (opportunities.length === 0) {
-    //   console.log('No opportunities in database, using demo data');
-    //   return await getOpportunitiesDemo(req, res);
-    // }
-
-    // This code is now unreachable due to early return above
-    // res.json({
-    //   success: true,
-    //   data: {
-    //     opportunities,
-    //     total: opportunities.length
-    //   }
-    // });
-  } catch (error: any) {
-    console.error('Get opportunities error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'خطأ في جلب الفرص',
-      error: error.message
-    });
-  }
-};
-
-// Keep demo opportunities as backup (commented out)
-export const getOpportunitiesDemo = async (req: Request, res: Response) => {
-  try {
-    // Demo mode - return hardcoded opportunities
+    // Clear existing opportunities first
+    await Opportunity.deleteMany({});
+    
     const demoOpportunities = [
       {
-        _id: 'opp1',
         title: 'معسكر بيدر 2025',
-        description: 'في ظل وجود عدد كبير من المشاريع الناشئة والأفكار الريادية الواعدة، يوفر بـَـيدر فرص كبيرة لتسخير وتركيز جهدك في المكان الصحيح.',
+        description: 'في ظل وجود عدد كبير من المشاريع الناشئة والأفكار الريادية الواعدة، يوفر بـَـيدر فرص كبيرة لتسخير وتركيز جهدك في المكان الصحيح. هذا المعسكر مصمم خصيصاً لتطوير مهارات ريادة الأعمال والابتكار لدى المشاركين من خلال ورش عمل تفاعلية وجلسات تدريبية متخصصة مع نخبة من الخبراء في المجال.',
         shortDescription: 'معسكر ريادة الأعمال والابتكار',
-        type: 'camp',
+        type: 'competition',
         category: 'business',
         company: {
           name: 'بيدر',
           logo: '/images/bedar-camp-2025.jpeg',
           website: 'https://bedar.com',
-          description: 'منصة ريادة الأعمال والابتكار'
+          description: 'منصة ريادة الأعمال الرائدة في المملكة'
         },
         location: {
           type: 'onsite',
@@ -65,37 +28,46 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
         },
         requirements: {
           education: ['أي مستوى تعليمي'],
-          experience: ['لا توجد متطلبات مسبقة'],
+          experience: ['فكرة مشروع ريادي'],
           skills: ['ريادة الأعمال', 'الابتكار', 'العمل الجماعي'],
           languages: ['العربية', 'الإنجليزية']
         },
         benefits: ['شهادة مشاركة', 'شبكة علاقات', 'تطوير المهارات'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-03-01T00:00:00.000Z',
-        maxApplicants: 100,
+        applicationDeadline: new Date('2025-03-15'),
+        startDate: new Date('2025-04-01'),
+        endDate: new Date('2025-04-05'),
+        maxApplicants: 50,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
-        tags: ['ريادة الأعمال', 'الابتكار', 'المعسكر'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tags: ['ريادة الأعمال', 'الابتكار', 'التطوير'],
+        language: 'en',
+        seo: {
+          slug: 'bedar-camp-2025',
+          metaTitle: 'معسكر بيدر 2025 - ريادة الأعمال والابتكار',
+          metaDescription: 'انضم إلى معسكر بيدر 2025 لتطوير مهاراتك في ريادة الأعمال والابتكار'
+        },
+        contactInfo: {
+          email: 'info@bedar.com',
+          website: 'https://bedar.com'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم الطلب', 'المقابلة', 'الاختيار'],
+          requiredDocuments: ['السيرة الذاتية', 'رسالة الدافع', 'شهادة التخرج']
+        },
+        views: 0
       },
       {
-        _id: 'opp2',
         title: 'هاكاثون الطاقة (طاقتثون) 2025',
-        description: 'هاكاثون مخصص لتطوير حلول مبتكرة في مجال الطاقة المستدامة والتقنيات الخضراء.',
+        description: 'هاكاثون الطاقة المستدامة هو مسابقة تقنية تهدف إلى تطوير حلول مبتكرة للطاقة النظيفة والمستدامة. يشارك في هذا الحدث المطورون والمصممون والمهندسون من جميع أنحاء المملكة لتقديم أفكار وحلول تقنية تساهم في تحقيق أهداف رؤية 2030 في مجال الطاقة المتجددة.',
         shortDescription: 'هاكاثون الطاقة المستدامة',
         type: 'competition',
         category: 'environment',
         company: {
-          name: 'طاقتثون',
-          logo: '/images/energy-hackathon-2025.jpeg',
-          website: 'https://energy-hackathon.com',
-          description: 'منصة الابتكار في الطاقة المستدامة'
+          name: 'وزارة الطاقة',
+          logo: '/images/energy-ministry.jpeg',
+          website: 'https://energy.gov.sa',
+          description: 'وزارة الطاقة والصناعة والثروة المعدنية'
         },
         location: {
           type: 'onsite',
@@ -103,116 +75,143 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
           country: 'Saudi Arabia'
         },
         requirements: {
-          education: ['أي مستوى تعليمي'],
-          experience: ['لا توجد متطلبات مسبقة'],
-          skills: ['البرمجة', 'الابتكار', 'الطاقة المستدامة'],
+          education: ['بكالوريوس في الهندسة أو علوم الحاسوب'],
+          experience: ['خبرة في البرمجة والتطوير'],
+          skills: ['البرمجة', 'التصميم', 'الابتكار'],
           languages: ['العربية', 'الإنجليزية']
         },
-        benefits: ['جوائز مالية', 'شهادة مشاركة', 'فرص توظيف'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-04-01T00:00:00.000Z',
-        maxApplicants: 200,
+        benefits: ['جوائز مالية', 'شهادة مشاركة', 'فرص عمل'],
+        applicationDeadline: new Date('2025-02-28'),
+        startDate: new Date('2025-03-15'),
+        endDate: new Date('2025-03-17'),
+        maxApplicants: 100,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
-        tags: ['هاكاثون', 'الطاقة', 'الاستدامة'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tags: ['الطاقة', 'التقنية', 'الابتكار'],
+        language: 'en',
+        seo: {
+          slug: 'energy-hackathon-2025',
+          metaTitle: 'هاكاثون الطاقة 2025 - حلول الطاقة المستدامة',
+          metaDescription: 'انضم إلى هاكاثون الطاقة لتطوير حلول مبتكرة للطاقة النظيفة'
+        },
+        contactInfo: {
+          email: 'hackathon@energy.gov.sa',
+          website: 'https://energy.gov.sa'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم الفكرة', 'التطوير', 'العرض'],
+          requiredDocuments: ['السيرة الذاتية', 'مثال على العمل', 'خطة المشروع']
+        },
+        views: 0
       },
       {
-        _id: 'opp3',
         title: 'جائزة مايدة محي الدين ناظر للابتكار 3',
-        description: 'تحدي يجمع طالبات الجامعات لاستكشاف وتوظيف الابتكارات الجامعية.',
+        description: 'جائزة مايدة محي الدين ناظر للابتكار هي مسابقة سنوية تهدف إلى تشجيع الابتكار والإبداع بين الطالبات في المملكة العربية السعودية. تقدم الجائزة دعماً مالياً ومعنوياً للمشاريع المبتكرة التي تساهم في تطوير المجتمع وحل المشاكل المحلية.',
         shortDescription: 'جائزة الابتكار للطالبات',
         type: 'competition',
         category: 'education',
         company: {
-          name: 'جائزة مايدة',
-          logo: '/images/maida-award-2025.jpeg',
-          website: 'https://maida-award.com',
-          description: 'جائزة الابتكار للطالبات'
+          name: 'مؤسسة مايدة',
+          logo: '/images/maida-foundation.jpeg',
+          website: 'https://maida.org',
+          description: 'مؤسسة خيرية تدعم التعليم والابتكار'
         },
         location: {
-          type: 'onsite',
-          address: 'الرياض، المملكة العربية السعودية',
+          type: 'remote',
+          address: 'جدة، المملكة العربية السعودية',
           country: 'Saudi Arabia'
         },
         requirements: {
-          education: ['طالبة جامعية'],
-          experience: ['لا توجد متطلبات مسبقة'],
-          skills: ['الابتكار', 'البحث العلمي', 'العمل الجماعي'],
-          languages: ['العربية', 'الإنجليزية']
+          education: ['طالبة في المرحلة الثانوية أو الجامعية'],
+          experience: ['مشروع ابتكاري'],
+          skills: ['الابتكار', 'التفكير الإبداعي', 'العرض'],
+          languages: ['العربية']
         },
-        benefits: ['جوائز مالية', 'شهادة مشاركة', 'فرص تطوير'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-05-01T00:00:00.000Z',
-        maxApplicants: 150,
+        benefits: ['جائزة مالية 90,000 ريال', 'شهادة تقدير', 'دعم المشروع'],
+        applicationDeadline: new Date('2025-04-30'),
+        startDate: new Date('2025-05-15'),
+        endDate: new Date('2025-05-20'),
+        maxApplicants: 200,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
-        tags: ['جائزة', 'الابتكار', 'الطالبات'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tags: ['الابتكار', 'الطالبات', 'الجوائز'],
+        language: 'en',
+        seo: {
+          slug: 'maida-innovation-award-2025',
+          metaTitle: 'جائزة مايدة للابتكار 2025',
+          metaDescription: 'شارك في جائزة مايدة للابتكار واحصل على دعم لمشروعك المبتكر'
+        },
+        contactInfo: {
+          email: 'award@maida.org',
+          website: 'https://maida.org'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم المشروع', 'التقييم', 'الاختيار'],
+          requiredDocuments: ['نموذج التقديم', 'وصف المشروع', 'فيديو العرض']
+        },
+        views: 0
       },
       {
-        _id: 'opp4',
-        title: 'برنامج ريادة الأعمال لتطوير الألعاب - اليابان',
-        description: 'برنامج تدريبي مكثف لمطوري الألعاب السعوديين في اليابان، يشمل التدريب التقني وريادة الأعمال.',
+        title: 'برنامج ريادة الأعمال لتطوير الألعاب – في اليابان',
+        description: 'برنامج تدريبي متخصص في تطوير الألعاب في اليابان، يهدف إلى تطوير قدرات مطوري الألعاب السعوديين من خلال التعلم من الخبرة اليابانية في صناعة الألعاب. يتضمن البرنامج ورش عمل متخصصة وزيارات لشركات الألعاب اليابانية الرائدة.',
         shortDescription: 'برنامج تطوير الألعاب في اليابان',
-        type: 'internship',
+        type: 'fellowship',
         category: 'technology',
         company: {
-          name: 'برنامج اليابان',
-          logo: '/images/game-development-japan.jpeg',
-          website: 'https://japan-program.com',
-          description: 'برنامج التدريب في اليابان'
+          name: 'معهد تطوير الألعاب الياباني',
+          logo: '/images/japan-games-institute.jpeg',
+          website: 'https://japan-games.org',
+          description: 'معهد متخصص في تطوير الألعاب والتقنيات التفاعلية'
         },
         location: {
           type: 'onsite',
-          address: 'اليابان',
+          address: 'طوكيو، اليابان',
           country: 'Japan'
         },
         requirements: {
-          education: ['بكالوريوس في علوم الحاسب'],
-          experience: ['خبرة في تطوير الألعاب'],
-          skills: ['البرمجة', 'تطوير الألعاب', 'ريادة الأعمال'],
-          languages: ['العربية', 'الإنجليزية', 'اليابانية']
+          education: ['بكالوريوس في علوم الحاسوب أو الهندسة'],
+          experience: ['خبرة في البرمجة وتطوير الألعاب'],
+          skills: ['البرمجة', 'التصميم', 'الابتكار'],
+          languages: ['الإنجليزية', 'اليابانية']
         },
-        benefits: ['تدريب مكثف', 'شهادة دولية', 'فرص توظيف'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-06-01T00:00:00.000Z',
-        maxApplicants: 50,
+        benefits: ['تدريب متخصص', 'شهادة دولية', 'فرص عمل'],
+        applicationDeadline: new Date('2025-05-15'),
+        startDate: new Date('2025-06-01'),
+        endDate: new Date('2025-08-31'),
+        maxApplicants: 20,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
-        tags: ['تطوير الألعاب', 'اليابان', 'ريادة الأعمال'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tags: ['الألعاب', 'اليابان', 'التدريب'],
+        language: 'en',
+        seo: {
+          slug: 'japan-games-development-program-2025',
+          metaTitle: 'برنامج تطوير الألعاب في اليابان 2025',
+          metaDescription: 'انضم إلى برنامج تطوير الألعاب في اليابان وتعلم من الخبرة اليابانية'
+        },
+        contactInfo: {
+          email: 'program@japan-games.org',
+          website: 'https://japan-games.org'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم الطلب', 'المقابلة', 'الاختيار'],
+          requiredDocuments: ['السيرة الذاتية', 'نماذج من العمل', 'رسالة الدافع']
+        },
+        views: 0
       },
       {
-        _id: 'opp5',
         title: 'Intersec Saudi Arabia 2025',
-        description: 'مؤتمر ومعرض رائد في مجال الأمن والسلامة يجمع أكثر من 370 عارضًا من 35 دولة لاستكشاف أحدث الحلول الأمنية.',
+        description: 'معرض ومؤتمر الأمن والسلامة الأكبر في الشرق الأوسط، يجمع بين الشركات الرائدة في مجال الأمن السيبراني والسلامة الصناعية. يوفر فرصاً للتواصل مع الخبراء والشركات العالمية في مجال الأمن والسلامة. هذا الحدث يهدف إلى تعزيز الوعي بأهمية الأمن السيبراني والسلامة الصناعية في المنطقة، ويوفر منصة مثالية للشركات والمؤسسات لعرض أحدث التقنيات والحلول في هذا المجال. كما يوفر فرصاً للتواصل مع الخبراء والمتخصصين في مجال الأمن والسلامة، وتبادل الخبرات والمعرفة.',
         shortDescription: 'مؤتمر الأمن والسلامة',
-        type: 'conference',
+        type: 'competition',
         category: 'technology',
         company: {
           name: 'Intersec',
-          logo: '/images/intersec-saudi-2025.jpeg',
+          logo: '/images/intersec-2025.jpeg',
           website: 'https://intersec.com',
-          description: 'مؤتمر الأمن والسلامة الدولي'
+          description: 'منصة الأمن والسلامة الرائدة عالمياً'
         },
         location: {
           type: 'onsite',
@@ -220,71 +219,88 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
           country: 'Saudi Arabia'
         },
         requirements: {
-          education: ['أي مستوى تعليمي'],
-          experience: ['اهتمام بمجال الأمن'],
-          skills: ['الأمن السيبراني', 'التقنية', 'الشبكات'],
+          education: ['بكالوريوس في الأمن السيبراني أو الهندسة'],
+          experience: ['خبرة في الأمن والسلامة'],
+          skills: ['الأمن السيبراني', 'السلامة الصناعية', 'التواصل'],
           languages: ['العربية', 'الإنجليزية']
         },
-        benefits: ['شهادة حضور', 'شبكة علاقات', 'معرفة حديثة'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-07-01T00:00:00.000Z',
+        benefits: ['شهادة مشاركة', 'شبكة علاقات', 'فرص عمل'],
+        applicationDeadline: new Date('2025-01-31'),
+        startDate: new Date('2025-02-15'),
+        endDate: new Date('2025-02-17'),
         maxApplicants: 500,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
-        tags: ['مؤتمر', 'الأمن', 'السلامة'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tags: ['الأمن', 'السلامة', 'التقنية'],
+        language: 'en',
+        seo: {
+          slug: 'intersec-saudi-arabia-2025',
+          metaTitle: 'Intersec Saudi Arabia 2025 - الأمن والسلامة',
+          metaDescription: 'انضم إلى أكبر معرض للأمن والسلامة في الشرق الأوسط'
+        },
+        contactInfo: {
+          email: 'info@intersec.com',
+          website: 'https://intersec.com'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم الطلب', 'الموافقة', 'المشاركة'],
+          requiredDocuments: ['السيرة الذاتية', 'شهادة التخصص', 'رسالة الدافع']
+        },
+        views: 0
       },
       {
-        _id: 'opp6',
         title: 'حاضنة الذكاء الاصطناعي 2025',
-        description: 'حاضنة متخصصة في دعم مشاريع الذكاء الاصطناعي للمبدعين من عمر 15 وفوق، توفر الدعم التقني والاستشارات والتمويل.',
+        description: 'حاضنة متخصصة في دعم المشاريع الناشئة في مجال الذكاء الاصطناعي، تقدم التمويل والاستشارات التقنية للمشاريع المبتكرة. تهدف إلى تطوير منظومة الابتكار في المملكة في مجال الذكاء الاصطناعي. توفر الحاضنة بيئة عمل متكاملة للمشاريع الناشئة، مع إمكانية الوصول إلى الخبراء والمستثمرين، وفرص التدريب والتطوير المهني في أحدث تقنيات الذكاء الاصطناعي.',
         shortDescription: 'حاضنة الذكاء الاصطناعي',
-        type: 'startup',
+        type: 'fellowship',
         category: 'technology',
         company: {
           name: 'حاضنة الذكاء الاصطناعي',
           logo: '/images/ai-incubator-2025.jpeg',
-          website: 'https://ai-incubator.com',
+          website: 'https://ai-incubator.sa',
           description: 'حاضنة متخصصة في الذكاء الاصطناعي'
         },
         location: {
-          type: 'onsite',
+          type: 'hybrid',
           address: 'الرياض، المملكة العربية السعودية',
           country: 'Saudi Arabia'
         },
         requirements: {
-          education: ['أي مستوى تعليمي'],
-          experience: ['فكرة مشروع في الذكاء الاصطناعي'],
+          education: ['بكالوريوس في علوم الحاسوب أو الهندسة'],
+          experience: ['مشروع في الذكاء الاصطناعي'],
           skills: ['الذكاء الاصطناعي', 'البرمجة', 'ريادة الأعمال'],
           languages: ['العربية', 'الإنجليزية']
         },
         benefits: ['تمويل', 'استشارات', 'شبكة علاقات'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-08-01T00:00:00.000Z',
+        applicationDeadline: new Date('2025-12-31'),
+        startDate: new Date('2025-08-01'),
         maxApplicants: 30,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
         tags: ['الذكاء الاصطناعي', 'الحاضنة', 'التمويل'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        language: 'en',
+        seo: {
+          slug: 'ai-incubator-2025',
+          metaTitle: 'حاضنة الذكاء الاصطناعي 2025',
+          metaDescription: 'انضم إلى حاضنة الذكاء الاصطناعي واحصل على دعم لمشروعك'
+        },
+        contactInfo: {
+          email: 'info@ai-incubator.sa',
+          website: 'https://ai-incubator.sa'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم المشروع', 'التقييم', 'الاختيار'],
+          requiredDocuments: ['نموذج التقديم', 'وصف المشروع', 'خطة العمل']
+        },
+        views: 0
       },
       {
-        _id: 'opp7',
-        title: 'معرض التوظيف 2025 - جامعة الملك فهد للبترول والمعادن',
-        description: 'معرض التوظيف السنوي لجامعة الملك فهد للبترول والمعادن تحت رعاية سعادة رئيس الجامعة، يفتح الآفاق ويبني المستقبل للخريجين.',
+        title: 'معرض التوظيف 2025',
+        description: 'معرض التوظيف السنوي لجامعة الملك فهد للبترول والمعادن تحت رعاية سعادة رئيس الجامعة، يفتح الآفاق ويبني المستقبل للخريجين. يجمع بين الشركات الرائدة في المملكة لتقديم فرص عمل متنوعة للخريجين. هذا المعرض يوفر فرصة فريدة للخريجين للتواصل المباشر مع أصحاب العمل، والتعرف على أحدث الفرص الوظيفية في مختلف القطاعات. كما يتضمن ورش عمل حول كتابة السيرة الذاتية ومهارات المقابلات الشخصية، وفرص للتواصل مع الخبراء في مجال التوظيف.',
         shortDescription: 'معرض التوظيف الجامعي',
-        type: 'job_fair',
+        type: 'job',
         category: 'education',
         company: {
           name: 'جامعة الملك فهد',
@@ -304,32 +320,41 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
           languages: ['العربية', 'الإنجليزية']
         },
         benefits: ['فرص توظيف', 'شبكة علاقات', 'استشارات مهنية'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-09-01T00:00:00.000Z',
-        maxApplicants: 6000,
+        applicationDeadline: new Date('2025-12-31'),
+        startDate: new Date('2025-03-15'),
+        endDate: new Date('2025-03-17'),
+        maxApplicants: 1000,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
-        tags: ['معرض التوظيف', 'الجامعة', 'الخريجين'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tags: ['التوظيف', 'الجامعة', 'الفرص'],
+        language: 'en',
+        seo: {
+          slug: 'job-fair-2025',
+          metaTitle: 'معرض التوظيف 2025 - جامعة الملك فهد',
+          metaDescription: 'انضم إلى معرض التوظيف السنوي واحصل على فرص عمل متنوعة'
+        },
+        contactInfo: {
+          email: 'careers@kfupm.edu.sa',
+          website: 'https://kfupm.edu.sa'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم السيرة الذاتية', 'المقابلة', 'الاختيار'],
+          requiredDocuments: ['السيرة الذاتية', 'شهادة التخرج', 'رسالة الدافع']
+        },
+        views: 0
       },
       {
-        _id: 'opp8',
         title: 'برنامج موهبة للالتحاق بالجامعات المرموقة (التميز) 2025',
-        description: 'برنامج تدريبي متكامل لتأهيل وإعداد أفضل الطلبة الراغبين في الدراسة في الجامعات الأمريكية المرموقة المصنفة من ضمن أفضل 50 جامعة على مستوى العالم.',
+        description: 'برنامج التميز للالتحاق بالجامعات الأمريكية المرموقة، يهدف إلى دعم الطلاب المتميزين للالتحاق بأفضل الجامعات العالمية. يتضمن البرنامج إعداد أكاديمي ولغوي مكثف بالإضافة إلى الدعم المالي. يوفر البرنامج فرصاً استثنائية للطلاب المتميزين للالتحاق بأفضل الجامعات الأمريكية مثل هارفارد وستانفورد ومعهد ماساتشوستس للتكنولوجيا. يتضمن البرنامج إعداداً شاملاً يشمل التحضير للاختبارات الدولية وكتابة المقالات الشخصية وتطوير المهارات القيادية.',
         shortDescription: 'برنامج التميز للجامعات الأمريكية',
         type: 'scholarship',
         category: 'education',
         company: {
-          name: 'موهبة',
-          logo: '/images/mawhiba-excellence.jpeg',
+          name: 'مؤسسة الملك عبدالعزيز ورجاله للموهبة والإبداع',
+          logo: '/images/mawhiba-2025.jpeg',
           website: 'https://mawhiba.org.sa',
-          description: 'مؤسسة الملك عبدالعزيز ورجاله للموهبة والإبداع'
+          description: 'مؤسسة دعم الموهوبين والمبدعين'
         },
         location: {
           type: 'onsite',
@@ -337,30 +362,39 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
           country: 'Saudi Arabia'
         },
         requirements: {
-          education: ['طالب ثانوي'],
+          education: ['طالب في المرحلة الثانوية'],
           experience: ['تميز أكاديمي'],
-          skills: ['اللغة الإنجليزية', 'القيادة', 'الابتكار'],
+          skills: ['التميز الأكاديمي', 'اللغة الإنجليزية', 'القيادة'],
           languages: ['العربية', 'الإنجليزية']
         },
-        benefits: ['منحة دراسية', 'تدريب مكثف', 'فرص دولية'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-10-01T00:00:00.000Z',
+        benefits: ['منحة دراسية', 'إعداد أكاديمي', 'دعم مالي'],
+        applicationDeadline: new Date('2025-04-30'),
+        startDate: new Date('2025-08-01'),
+        endDate: new Date('2029-05-31'),
         maxApplicants: 100,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
-        tags: ['موهبة', 'التميز', 'الجامعات الأمريكية'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tags: ['التميز', 'الجامعات الأمريكية', 'المنح'],
+        language: 'en',
+        seo: {
+          slug: 'mawhiba-excellence-program-2025',
+          metaTitle: 'برنامج موهبة للتميز 2025',
+          metaDescription: 'انضم إلى برنامج التميز للالتحاق بالجامعات الأمريكية المرموقة'
+        },
+        contactInfo: {
+          email: 'excellence@mawhiba.org.sa',
+          website: 'https://mawhiba.org.sa'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'الاختبارات', 'المقابلة', 'الاختيار'],
+          requiredDocuments: ['السجل الأكاديمي', 'شهادات التميز', 'رسالة الدافع']
+        },
+        views: 0
       },
       {
-        _id: 'opp9',
         title: 'ماراثون الأفكار أيدياثون 2025',
-        description: 'ماراثون للأفكار والمشاريع المجتمعية في منطقة جازان، يهدف إلى تحفيز الابتكار وتطوير حلول مبتكرة للتحديات المحلية.',
+        description: 'ماراثون الأفكار المجتمعية في جازان، يهدف إلى تطوير حلول مبتكرة للمشاكل المحلية في المنطقة. يجمع بين المبدعين والمطورين لتقديم أفكار وحلول تقنية تساهم في تطوير المجتمع المحلي. هذا الحدث يوفر منصة مثالية للشباب المبدعين لتقديم أفكارهم الإبداعية وحلولهم التقنية للمشاكل المجتمعية. يتضمن البرنامج ورش عمل حول الابتكار وتطوير الأفكار، وفرص للتواصل مع الخبراء والمستثمرين في مجال التكنولوجيا والابتكار.',
         shortDescription: 'ماراثون الأفكار المجتمعية',
         type: 'competition',
         category: 'social-impact',
@@ -382,88 +416,91 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
           languages: ['العربية', 'الإنجليزية']
         },
         benefits: ['جوائز مالية', 'شهادة مشاركة', 'فرص تطوير'],
-        applicationDeadline: '2025-12-31T00:00:00.000Z',
-        startDate: '2025-11-01T00:00:00.000Z',
+        applicationDeadline: new Date('2025-12-31'),
+        startDate: new Date('2025-11-01'),
+        endDate: new Date('2025-11-03'),
         maxApplicants: 150,
         currentApplicants: 0,
         status: 'active',
-        isActive: true,
         isFeatured: true,
-        isUrgent: false,
         tags: ['ماراثون', 'الأفكار', 'المجتمع'],
-        language: 'ar',
-        views: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        language: 'en',
+        seo: {
+          slug: 'jazan-ideathon-2025',
+          metaTitle: 'ماراثون الأفكار جازان 2025',
+          metaDescription: 'انضم إلى ماراثون الأفكار المجتمعية في جازان وطور حلول مبتكرة'
+        },
+        contactInfo: {
+          email: 'info@jazan-ideathon.com',
+          website: 'https://jazan-ideathon.com'
+        },
+        applicationProcess: {
+          steps: ['التسجيل', 'تقديم الفكرة', 'التطوير', 'العرض'],
+          requiredDocuments: ['نموذج التقديم', 'وصف الفكرة', 'خطة التنفيذ']
+        },
+        views: 0
       }
     ];
 
+    // Insert opportunities into database
+    await Opportunity.insertMany(demoOpportunities);
+    console.log('✅ Opportunities seeded successfully');
+  } catch (error) {
+    console.error('❌ Error seeding opportunities:', error);
+  }
+};
+
+// @desc    Get all opportunities
+// @route   GET /api/opportunities
+// @access  Public
+export const getOpportunities = async (req: Request, res: Response) => {
+  try {
+    // Get opportunities from database
+    let opportunities = await Opportunity.find({})
+      .sort({ createdAt: -1 })
+      .limit(50);
+
+    // If no opportunities in database, seed with demo data
+    if (opportunities.length === 0) {
+      console.log('No opportunities in database, seeding with demo data');
+      await seedOpportunities();
+      // Try again after seeding
+      opportunities = await Opportunity.find({})
+        .sort({ createdAt: -1 })
+        .limit(50);
+    }
+
+    // Get pagination parameters
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
-    const type = req.query.type as string;
-    const category = req.query.category as string;
-    const status = req.query.status as string || 'active';
-    const location = req.query.location as string;
-    const search = req.query.search as string;
-    const featured = req.query.featured === 'true';
-    const urgent = req.query.urgent === 'true';
-    const salaryRange = req.query.salaryRange as string;
-
-    // Skip database query in demo mode
-    // Apply filters to demo opportunities
-    let filteredOpportunities = demoOpportunities;
-
-    if (type) {
-      filteredOpportunities = filteredOpportunities.filter(opp => opp.type === type);
-    }
-
-    if (category) {
-      filteredOpportunities = filteredOpportunities.filter(opp => opp.category === category);
-    }
-
-    if (location) {
-      filteredOpportunities = filteredOpportunities.filter(opp => opp.location.type === location);
-    }
-
-    if (featured) {
-      filteredOpportunities = filteredOpportunities.filter(opp => opp.isFeatured === true);
-    }
-
-    if (urgent) {
-      filteredOpportunities = filteredOpportunities.filter(opp => opp.isUrgent === true);
-    }
-
-    if (search) {
-      filteredOpportunities = filteredOpportunities.filter(opp => 
-        opp.title.toLowerCase().includes(search.toLowerCase()) ||
-        opp.description.toLowerCase().includes(search.toLowerCase()) ||
-        opp.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()))
-      );
-    }
-
-    // Return demo opportunities
-    const total = filteredOpportunities.length;
-    const totalPages = Math.ceil(total / limit);
     const skip = (page - 1) * limit;
-    const opportunities = filteredOpportunities.slice(skip, skip + limit);
 
-    return res.json({
+    // Get total count
+    const total = await Opportunity.countDocuments({});
+    
+    // Get paginated opportunities
+    const paginatedOpportunities = await Opportunity.find({})
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
       success: true,
       data: {
-        opportunities,
+        opportunities: paginatedOpportunities,
         pagination: {
           page,
           limit,
           total,
-          totalPages,
-          hasNext: page < totalPages,
+          totalPages: Math.ceil(total / limit),
+          hasNext: page < Math.ceil(total / limit),
           hasPrev: page > 1
         }
       }
     });
   } catch (error: any) {
     console.error('Get opportunities error:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'خطأ في جلب الفرص',
       error: error.message
@@ -471,13 +508,12 @@ export const getOpportunitiesDemo = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Get opportunity by ID
+// @desc    Get single opportunity
 // @route   GET /api/opportunities/:id
 // @access  Public
-export const getOpportunityById = async (req: Request, res: Response) => {
+export const getOpportunity = async (req: Request, res: Response) => {
   try {
-    const opportunity = await Opportunity.findById(req.params.id)
-      .populate('company', 'name logo website description');
+    const opportunity = await Opportunity.findById(req.params.id);
 
     if (!opportunity) {
       return res.status(404).json({
@@ -486,17 +522,15 @@ export const getOpportunityById = async (req: Request, res: Response) => {
       });
     }
 
-    // Increment view count
-    opportunity.views += 1;
-    await opportunity.save();
-
-    return res.json({
+    res.json({
       success: true,
-      data: { opportunity }
+      data: {
+        opportunity
+      }
     });
   } catch (error: any) {
-    console.error('Get opportunity by ID error:', error);
-    return res.status(500).json({
+    console.error('Get opportunity error:', error);
+    res.status(500).json({
       success: false,
       message: 'خطأ في جلب الفرصة',
       error: error.message
@@ -509,65 +543,18 @@ export const getOpportunityById = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const createOpportunity = async (req: Request, res: Response) => {
   try {
-    const {
-      title,
-      description,
-      shortDescription,
-      type,
-      category,
-      company,
-      location,
-      requirements,
-      benefits,
-      salary,
-      duration,
-      applicationDeadline,
-      startDate,
-      endDate,
-      maxApplicants,
-      tags,
-      language,
-      seo,
-      contactInfo,
-      applicationProcess
-    } = req.body;
-
-    const opportunity = new Opportunity({
-      title,
-      description,
-      shortDescription,
-      type,
-      category,
-      company,
-      location,
-      requirements,
-      benefits,
-      salary,
-      duration,
-      applicationDeadline,
-      startDate,
-      endDate,
-      maxApplicants,
-      tags,
-      language,
-      seo,
-      contactInfo,
-      applicationProcess
-    });
-
+    const opportunity = new Opportunity(req.body);
     await opportunity.save();
 
-    const populatedOpportunity = await Opportunity.findById(opportunity._id)
-      .populate('company', 'name logo website');
-
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
-      message: 'تم إنشاء الفرصة بنجاح',
-      data: { opportunity: populatedOpportunity }
+      data: {
+        opportunity
+      }
     });
   } catch (error: any) {
     console.error('Create opportunity error:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'خطأ في إنشاء الفرصة',
       error: error.message
@@ -580,7 +567,12 @@ export const createOpportunity = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const updateOpportunity = async (req: Request, res: Response) => {
   try {
-    const opportunity = await Opportunity.findById(req.params.id);
+    const opportunity = await Opportunity.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    
     if (!opportunity) {
       return res.status(404).json({
         success: false,
@@ -588,22 +580,15 @@ export const updateOpportunity = async (req: Request, res: Response) => {
       });
     }
 
-    const updateData = req.body;
-
-    const updatedOpportunity = await Opportunity.findByIdAndUpdate(
-      req.params.id,
-      updateData,
-      { new: true, runValidators: true }
-    ).populate('company', 'name logo website');
-
-    return res.json({
+    res.json({
       success: true,
-      message: 'تم تحديث الفرصة بنجاح',
-      data: { opportunity: updatedOpportunity }
+      data: {
+        opportunity
+      }
     });
   } catch (error: any) {
     console.error('Update opportunity error:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'خطأ في تحديث الفرصة',
       error: error.message
@@ -616,7 +601,8 @@ export const updateOpportunity = async (req: Request, res: Response) => {
 // @access  Private/Admin
 export const deleteOpportunity = async (req: Request, res: Response) => {
   try {
-    const opportunity = await Opportunity.findById(req.params.id);
+    const opportunity = await Opportunity.findByIdAndDelete(req.params.id);
+    
     if (!opportunity) {
       return res.status(404).json({
         success: false,
@@ -624,19 +610,13 @@ export const deleteOpportunity = async (req: Request, res: Response) => {
       });
     }
 
-    // Delete associated applications
-    await Application.deleteMany({ opportunity: req.params.id });
-
-    // Delete opportunity
-    await Opportunity.findByIdAndDelete(req.params.id);
-
-    return res.json({
+    res.json({
       success: true,
       message: 'تم حذف الفرصة بنجاح'
     });
   } catch (error: any) {
     console.error('Delete opportunity error:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'خطأ في حذف الفرصة',
       error: error.message
@@ -644,14 +624,16 @@ export const deleteOpportunity = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Get opportunity by slug
-// @route   GET /api/opportunities/slug/:slug
-// @access  Public
-export const getOpportunityBySlug = async (req: Request, res: Response) => {
+// @desc    Apply for opportunity
+// @route   POST /api/opportunities/:id/apply
+// @access  Private
+export const applyForOpportunity = async (req: Request, res: Response) => {
   try {
-    const opportunity = await Opportunity.findOne({ 'seo.slug': req.params.slug })
-      .populate('company', 'name logo website description');
+    const { id } = req.params;
+    const { userId, coverLetter, resume } = req.body;
 
+    // Check if opportunity exists
+    const opportunity = await Opportunity.findById(id);
     if (!opportunity) {
       return res.status(404).json({
         success: false,
@@ -659,19 +641,196 @@ export const getOpportunityBySlug = async (req: Request, res: Response) => {
       });
     }
 
-    // Increment view count
-    opportunity.views += 1;
+    // Check if user already applied
+    const existingApplication = await Application.findOne({
+      opportunity: id,
+      user: userId
+    });
+
+    if (existingApplication) {
+      return res.status(400).json({
+        success: false,
+        message: 'لقد تقدمت لهذه الفرصة من قبل'
+      });
+    }
+
+    // Create application
+    const application = new Application({
+      opportunity: id,
+      user: userId,
+      coverLetter,
+      resume,
+      status: 'pending'
+    });
+
+    await application.save();
+
+    // Update opportunity applicants count
+    opportunity.currentApplicants += 1;
+    opportunity.applicantsList.push(userId);
     await opportunity.save();
 
-    return res.json({
+    res.status(201).json({
       success: true,
-      data: { opportunity }
+      data: {
+        application
+      }
     });
   } catch (error: any) {
-    console.error('Get opportunity by slug error:', error);
-    return res.status(500).json({
+    console.error('Apply for opportunity error:', error);
+    res.status(500).json({
       success: false,
-      message: 'خطأ في جلب الفرصة',
+      message: 'خطأ في التقديم للفرصة',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Get user applications
+// @route   GET /api/opportunities/applications
+// @access  Private
+export const getUserApplications = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query;
+    
+    const applications = await Application.find({ user: userId })
+      .populate('opportunity', 'title company location applicationDeadline')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: {
+        applications
+      }
+    });
+  } catch (error: any) {
+    console.error('Get user applications error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطأ في جلب طلبات التقديم',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Get opportunity applications
+// @route   GET /api/opportunities/:id/applications
+// @access  Private/Admin
+export const getOpportunityApplications = async (req: Request, res: Response) => {
+  try {
+    const applications = await Application.find({ opportunity: req.params.id })
+      .populate('user', 'firstName lastName email')
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: {
+        applications
+      }
+    });
+  } catch (error: any) {
+    console.error('Get opportunity applications error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطأ في جلب طلبات التقديم',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Update application status
+// @route   PUT /api/opportunities/applications/:id
+// @access  Private/Admin
+export const updateApplicationStatus = async (req: Request, res: Response) => {
+  try {
+    const { status } = req.body;
+    
+    const application = await Application.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        message: 'طلب التقديم غير موجود'
+      });
+    }
+
+    res.json({
+      success: true,
+      data: {
+        application
+      }
+    });
+  } catch (error: any) {
+    console.error('Update application status error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطأ في تحديث حالة طلب التقديم',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Search opportunities
+// @route   GET /api/opportunities/search
+// @access  Public
+export const searchOpportunities = async (req: Request, res: Response) => {
+  try {
+    const { q, type, category, location, page = 1, limit = 10 } = req.query;
+    
+    let query: any = {};
+    
+    if (q) {
+      query.$or = [
+        { title: { $regex: q, $options: 'i' } },
+        { description: { $regex: q, $options: 'i' } },
+        { tags: { $in: [new RegExp(q as string, 'i')] } }
+      ];
+    }
+    
+    if (type) {
+      query.type = type;
+    }
+    
+    if (category) {
+      query.category = category;
+    }
+    
+    if (location) {
+      query['location.city'] = { $regex: location, $options: 'i' };
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+    
+    const opportunities = await Opportunity.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+    
+    const total = await Opportunity.countDocuments(query);
+
+    res.json({
+      success: true,
+      data: {
+        opportunities,
+        pagination: {
+          page: Number(page),
+          limit: Number(limit),
+          total,
+          totalPages: Math.ceil(total / Number(limit)),
+          hasNext: Number(page) < Math.ceil(total / Number(limit)),
+          hasPrev: Number(page) > 1
+        }
+      }
+    });
+  } catch (error: any) {
+    console.error('Search opportunities error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطأ في البحث عن الفرص',
       error: error.message
     });
   }
@@ -682,23 +841,19 @@ export const getOpportunityBySlug = async (req: Request, res: Response) => {
 // @access  Public
 export const getFeaturedOpportunities = async (req: Request, res: Response) => {
   try {
-    const limit = parseInt(req.query.limit as string) || 5;
-
-    const opportunities = await Opportunity.find({
-      isFeatured: true,
-      status: 'active'
-    })
-      .populate('company', 'name logo website')
+    const opportunities = await Opportunity.find({ isFeatured: true })
       .sort({ createdAt: -1 })
-      .limit(limit);
+      .limit(6);
 
-    return res.json({
+    res.json({
       success: true,
-      data: { opportunities }
+      data: {
+        opportunities
+      }
     });
   } catch (error: any) {
     console.error('Get featured opportunities error:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'خطأ في جلب الفرص المميزة',
       error: error.message
@@ -711,23 +866,19 @@ export const getFeaturedOpportunities = async (req: Request, res: Response) => {
 // @access  Public
 export const getUrgentOpportunities = async (req: Request, res: Response) => {
   try {
-    const limit = parseInt(req.query.limit as string) || 5;
-
-    const opportunities = await Opportunity.find({
-      isUrgent: true,
-      status: 'active'
-    })
-      .populate('company', 'name logo website')
+    const opportunities = await Opportunity.find({ isUrgent: true })
       .sort({ applicationDeadline: 1 })
-      .limit(limit);
+      .limit(4);
 
-    return res.json({
+    res.json({
       success: true,
-      data: { opportunities }
+      data: {
+        opportunities
+      }
     });
   } catch (error: any) {
     console.error('Get urgent opportunities error:', error);
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'خطأ في جلب الفرص العاجلة',
       error: error.message
@@ -735,96 +886,126 @@ export const getUrgentOpportunities = async (req: Request, res: Response) => {
   }
 };
 
-// @desc    Apply for opportunity
-// @route   POST /api/opportunities/:id/apply
-// @access  Private
-export const applyForOpportunity = async (req: Request, res: Response) => {
+// @desc    Get opportunities by type
+// @route   GET /api/opportunities/type/:type
+// @access  Public
+export const getOpportunitiesByType = async (req: Request, res: Response) => {
   try {
-    const opportunity = await Opportunity.findById(req.params.id);
-    if (!opportunity) {
-      return res.status(404).json({
-        success: false,
-        message: 'الفرصة غير موجودة'
-      });
-    }
+    const { type } = req.params;
+    const { page = 1, limit = 10 } = req.query;
+    
+    const skip = (Number(page) - 1) * Number(limit);
+    
+    const opportunities = await Opportunity.find({ type })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+    
+    const total = await Opportunity.countDocuments({ type });
 
-    // Check if opportunity is available
-    if (!opportunity.isAvailable) {
-      return res.status(400).json({
-        success: false,
-        message: 'الفرصة غير متاحة للتقديم'
-      });
-    }
-
-    // Check if user has already applied
-    const existingApplication = await Application.findOne({
-      applicant: req.user.id,
-      opportunity: req.params.id
-    });
-
-    if (existingApplication) {
-      return res.status(400).json({
-        success: false,
-        message: 'لقد تقدمت بالفعل لهذه الفرصة'
-      });
-    }
-
-    // Check if opportunity is full
-    if (opportunity.isFull) {
-      return res.status(400).json({
-        success: false,
-        message: 'الفرصة ممتلئة'
-      });
-    }
-
-    const {
-      coverLetter,
-      resume,
-      additionalDocuments,
-      experience,
-      education,
-      skills,
-      languages,
-      references,
-      availability,
-      salary,
-      questions,
-      notes
-    } = req.body;
-
-    const application = new Application({
-      applicant: req.user.id,
-      opportunity: req.params.id,
-      coverLetter,
-      resume,
-      additionalDocuments,
-      experience,
-      education,
-      skills,
-      languages,
-      references,
-      availability,
-      salary,
-      questions,
-      notes
-    });
-
-    await application.save();
-
-    // Increment current applicants count
-    opportunity.currentApplicants += 1;
-    opportunity.applications.push(application._id as any);
-    await opportunity.save();
-
-    return res.status(201).json({
+    res.json({
       success: true,
-      message: 'تم تقديم طلبك بنجاح'
+      data: {
+        opportunities,
+        pagination: {
+          page: Number(page),
+          limit: Number(limit),
+          total,
+          totalPages: Math.ceil(total / Number(limit)),
+          hasNext: Number(page) < Math.ceil(total / Number(limit)),
+          hasPrev: Number(page) > 1
+        }
+      }
     });
   } catch (error: any) {
-    console.error('Apply for opportunity error:', error);
-    return res.status(500).json({
+    console.error('Get opportunities by type error:', error);
+    res.status(500).json({
+        success: false,
+      message: 'خطأ في جلب الفرص حسب النوع',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Get opportunities by category
+// @route   GET /api/opportunities/category/:category
+// @access  Public
+export const getOpportunitiesByCategory = async (req: Request, res: Response) => {
+  try {
+    const { category } = req.params;
+    const { page = 1, limit = 10 } = req.query;
+    
+    const skip = (Number(page) - 1) * Number(limit);
+    
+    const opportunities = await Opportunity.find({ category })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+    
+    const total = await Opportunity.countDocuments({ category });
+
+    res.json({
+      success: true,
+      data: {
+        opportunities,
+        pagination: {
+          page: Number(page),
+          limit: Number(limit),
+          total,
+          totalPages: Math.ceil(total / Number(limit)),
+          hasNext: Number(page) < Math.ceil(total / Number(limit)),
+          hasPrev: Number(page) > 1
+        }
+      }
+    });
+  } catch (error: any) {
+    console.error('Get opportunities by category error:', error);
+    res.status(500).json({
+        success: false,
+      message: 'خطأ في جلب الفرص حسب الفئة',
+      error: error.message
+    });
+  }
+};
+
+// @desc    Get opportunities statistics
+// @route   GET /api/opportunities/stats
+// @access  Private/Admin
+export const getOpportunitiesStats = async (req: Request, res: Response) => {
+  try {
+    const total = await Opportunity.countDocuments();
+    const active = await Opportunity.countDocuments({ status: 'active' });
+    const closed = await Opportunity.countDocuments({ status: 'closed' });
+    const expired = await Opportunity.countDocuments({ status: 'expired' });
+    const draft = await Opportunity.countDocuments({ status: 'draft' });
+    
+    const typeStats = await Opportunity.aggregate([
+      { $group: { _id: '$type', count: { $sum: 1 } } }
+    ]);
+    
+    const categoryStats = await Opportunity.aggregate([
+      { $group: { _id: '$category', count: { $sum: 1 } } }
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        total,
+        status: {
+          active,
+          closed,
+          expired,
+          draft
+        },
+        typeStats,
+        categoryStats
+      }
+    });
+  } catch (error: any) {
+    console.error('Get opportunities stats error:', error);
+    res.status(500).json({
       success: false,
-      message: 'خطأ في تقديم الطلب',
+      message: 'خطأ في جلب إحصائيات الفرص',
       error: error.message
     });
   }

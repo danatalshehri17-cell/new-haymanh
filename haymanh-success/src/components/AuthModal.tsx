@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
@@ -378,7 +378,7 @@ const Message = styled.div<{ type: 'error' | 'success' }>`
   }
 `;
 
-const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onModeChange }) => {
+const AuthModal= ({ isOpen, onClose, mode, onModeChange }) => {
   console.log('AuthModal rendered, isOpen:', isOpen, 'mode:', mode);
   console.log('AuthModal props received:', { isOpen, mode });
   const { login, register } = useAuth();
@@ -393,7 +393,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onModeChan
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -417,7 +417,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, mode, onModeChan
     setSuccess('');
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');

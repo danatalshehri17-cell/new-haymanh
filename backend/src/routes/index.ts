@@ -9,6 +9,7 @@ import eventRoutes from './events';
 import reviewRoutes from './reviews';
 import applicationRoutes from './applications';
 import dashboardRoutes from './dashboard';
+import adminRoutes from './adminRoutes';
 
 const router = express.Router();
 
@@ -23,5 +24,6 @@ router.use('/events', eventRoutes);
 router.use('/reviews', reviewRoutes);
 router.use('/applications', applicationRoutes);
 router.use('/dashboard', dashboardRoutes);
+router.use('/admin', adminRoutes);
 
 export default router;

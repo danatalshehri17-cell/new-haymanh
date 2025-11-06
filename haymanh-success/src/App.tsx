@@ -20,9 +20,11 @@ import Blog from './pages/Blog';
 import Dashboard from './pages/Dashboard';
 import Community from './pages/Community';
 import OpportunitySelector from './pages/OpportunitySelector';
+import { AdminPanel, ContentEditor, QuickLogin } from './admin';
+import OpportunitiesManagement from './admin/pages/OpportunitiesManagement';
 
 
-const AppContent: React.FC = () => {
+const AppContent = () => {
   const { currentTheme } = useTheme();
 
   return (
@@ -46,6 +48,10 @@ const AppContent: React.FC = () => {
                     <Route path="/opportunity-selector" element={<OpportunitySelector />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/community" element={<Community />} />
+                    <Route path="/quick-login" element={<QuickLogin />} />
+                    <Route path="/admin" element={<AdminPanel />} />
+                    <Route path="/admin/edit/:pageId" element={<ContentEditor />} />
+                    <Route path="/admin/opportunities" element={<OpportunitiesManagement />} />
                   </Routes>
                 </main>
                 <Footer />

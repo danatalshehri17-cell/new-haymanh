@@ -98,7 +98,7 @@ const ReadMoreButton = styled.button`
   }
 `;
 
-const News: React.FC = () => {
+const News = () => {
   const news = [
     {
       id: 1,

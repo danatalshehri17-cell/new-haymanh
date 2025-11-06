@@ -28,7 +28,7 @@ interface SettingsProviderProps {
   children: ReactNode;
 }
 
-export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) => {
+export const SettingsProvider = ({ children }: SettingsProviderProps) => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
 
   useEffect(() => {

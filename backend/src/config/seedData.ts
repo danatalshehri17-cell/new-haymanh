@@ -23,7 +23,7 @@ export const seedData = async (): Promise<void> => {
     const testUser = await User.create({
       firstName: 'أحمد',
       lastName: 'المستخدم',
-      email: 'user@haymanh.com',
+      email: 'mbadrt04@gmail.com',
       password: 'User123!@#',
       role: 'user',
       isVerified: true,
@@ -36,7 +36,7 @@ export const seedData = async (): Promise<void> => {
     const regularUser = await User.create({
       firstName: 'محمد',
       lastName: 'المستخدم',
-      email: 'mohammed@haymanh.com',
+      email: 'mbadrt04@gmail.com',
       password: 'User123!@#',
       role: 'user',
       isVerified: true,

@@ -93,7 +93,7 @@ const achievementSchema = new Schema<IAchievement>({
 });
 
 // Indexes
-achievementSchema.index({ achievementId: 1 });
+// achievementSchema.index({ achievementId: 1 }); // Removed - already indexed by unique: true
 achievementSchema.index({ category: 1, order: 1 });
 achievementSchema.index({ isActive: 1, isHidden: 1 });
 

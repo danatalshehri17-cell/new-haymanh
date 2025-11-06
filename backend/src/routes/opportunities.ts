@@ -1,11 +1,10 @@
 import express from 'express';
 import {
   getOpportunities,
-  getOpportunityById,
+  getOpportunity,
   createOpportunity,
   updateOpportunity,
   deleteOpportunity,
-  getOpportunityBySlug,
   getFeaturedOpportunities,
   getUrgentOpportunities,
   applyForOpportunity
@@ -19,8 +18,7 @@ const router = express.Router();
 router.get('/', getOpportunities);
 router.get('/featured', getFeaturedOpportunities);
 router.get('/urgent', getUrgentOpportunities);
-router.get('/slug/:slug', getOpportunityBySlug);
-router.get('/:id', getOpportunityById);
+router.get('/:id', getOpportunity);
 
 // Protected routes
 router.use(protect);

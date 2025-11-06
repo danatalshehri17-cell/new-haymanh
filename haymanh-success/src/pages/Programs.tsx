@@ -223,7 +223,7 @@ const FilterSelect = styled.select`
   }
 `;
 
-const Programs: React.FC = () => {
+const Programs = () => {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState('all');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);

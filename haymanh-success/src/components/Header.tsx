@@ -76,7 +76,7 @@ const Logo = styled(Link)`
   }
 `;
 
-const NavLinks = styled.div<{ isOpen: boolean }>`
+const NavLinks = styled.div<{ $isOpen: boolean }>`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
@@ -88,7 +88,7 @@ const NavLinks = styled.div<{ isOpen: boolean }>`
   }
 
   @media (max-width: 768px) {
-    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+    display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
     position: absolute;
     top: 100%;
     left: 0;
@@ -107,11 +107,11 @@ const NavLinks = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const NavLink = styled(Link)<{ isActive: boolean }>`
-  color: ${({ theme, isActive }) => 
-    isActive ? theme.colors.primary : theme.colors.text};
+const NavLink = styled(Link)<{ $isActive: boolean }>`
+  color: ${({ theme, $isActive }) => 
+    $isActive ? theme.colors.primary : theme.colors.text};
   text-decoration: none;
-  font-weight: ${({ isActive }) => (isActive ? '600' : '400')};
+  font-weight: ${({ $isActive }) => ($isActive ? '600' : '400')};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.medium};
   transition: all 0.3s ease;
@@ -153,7 +153,7 @@ const NavLink = styled(Link)<{ isActive: boolean }>`
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: ${({ isActive }) => (isActive ? '100%' : '0')};
+    width: ${({ $isActive }) => ($isActive ? '100%' : '0')};
     height: 2px;
     background: ${({ theme }) => theme.colors.primary};
     transition: width 0.3s ease;
@@ -317,7 +317,7 @@ const MobileMenuButton = styled.button`
   }
 `;
 
-const Header: React.FC = () => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -352,12 +352,12 @@ const Header: React.FC = () => {
             <img src="/logo-with-name.png" alt="هيمنة النجاح" />
           </Logo>
 
-          <NavLinks isOpen={isMenuOpen}>
+          <NavLinks $isOpen={isMenuOpen}>
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
-                isActive={location.pathname === item.path}
+                $isActive={location.pathname === item.path}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.label}
@@ -368,8 +368,11 @@ const Header: React.FC = () => {
           <RightSection>
             {isAuthenticated ? (
               <>
-                <NavLink to="/dashboard" isActive={location.pathname === '/dashboard'}>
+                <NavLink to="/dashboard" $isActive={location.pathname === '/dashboard'}>
                   {t('dashboard')}
+                </NavLink>
+                <NavLink to="/admin" $isActive={location.pathname === '/admin'}>
+                  🎛️ لوحة الإدارة
                 </NavLink>
                 <UserMenu>
                   <UserAvatar>{user?.avatar}</UserAvatar>
@@ -377,7 +380,9 @@ const Header: React.FC = () => {
                   <SettingsButton onClick={() => setShowSettings(true)}>
                     ⚙️
                   </SettingsButton>
-                  <LogoutButton onClick={logout}>{t('logout')}</LogoutButton>
+                  {user?.email !== 'mbadrt04@gmail.com' && (
+                    <LogoutButton onClick={logout}>{t('logout')}</LogoutButton>
+                  )}
                 </UserMenu>
               </>
             ) : (

@@ -319,7 +319,7 @@ const userProgressSchema = new Schema<IUserProgress>({
 });
 
 // Indexes
-userProgressSchema.index({ userId: 1 });
+// userProgressSchema.index({ userId: 1 }); // Removed - already indexed by unique: true
 userProgressSchema.index({ 'enrolledPrograms.programId': 1 });
 userProgressSchema.index({ 'selectedOpportunities.opportunityId': 1 });
 userProgressSchema.index({ 'statistics.lastActivityDate': 1 });

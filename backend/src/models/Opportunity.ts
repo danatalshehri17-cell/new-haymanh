@@ -237,8 +237,8 @@ const opportunitySchema = new Schema<IOpportunity>({
   }],
   language: {
     type: String,
-    enum: ['ar', 'en', 'both'],
-    default: 'ar'
+    enum: ['en', 'both'],
+    default: 'en'
   },
   seo: {
     metaTitle: {
@@ -361,7 +361,7 @@ opportunitySchema.index({ 'location.type': 1, status: 1 });
 opportunitySchema.index({ applicationDeadline: 1, status: 1 });
 opportunitySchema.index({ isFeatured: 1, status: 1 });
 opportunitySchema.index({ isUrgent: 1, status: 1 });
-opportunitySchema.index({ 'seo.slug': 1 });
+// opportunitySchema.index({ 'seo.slug': 1 }); // Removed - already indexed by unique: true
 opportunitySchema.index({ language: 1, status: 1 });
 opportunitySchema.index({ createdAt: -1 });
 

@@ -141,7 +141,7 @@ const NotificationContent = styled.div`
   margin-right: 40px;
 `;
 
-const NotificationSystem: React.FC<NotificationSystemProps> = ({
+const NotificationSystem= ({
   notifications,
   onMarkAsRead,
   onClearAll,

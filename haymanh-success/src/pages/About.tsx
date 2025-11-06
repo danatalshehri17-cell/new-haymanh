@@ -328,7 +328,7 @@ const ViewMoreButton = styled(Link)`
   }
 `;
 
-const About: React.FC = () => {
+const About = () => {
   const { t } = useLanguage();
   
   const values = [

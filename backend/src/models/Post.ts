@@ -184,7 +184,7 @@ postSchema.index({ title: 'text', content: 'text', tags: 'text' });
 postSchema.index({ author: 1, status: 1 });
 postSchema.index({ category: 1, status: 1 });
 postSchema.index({ isFeatured: 1, publishedAt: -1 });
-postSchema.index({ 'seo.slug': 1 });
+// postSchema.index({ 'seo.slug': 1 }); // Removed - already indexed by unique: true
 postSchema.index({ language: 1, status: 1 });
 
 export default mongoose.model<IPost>('Post', postSchema);

@@ -826,7 +826,7 @@ const NewsletterNote = styled.p`
   font-style: italic;
 `;
 
-const Home: React.FC = () => {
+const Home = () => {
   const { isAuthenticated } = useAuth();
   const { t } = useLanguage();
   const [showAuthModal, setShowAuthModal] = useState(false);
