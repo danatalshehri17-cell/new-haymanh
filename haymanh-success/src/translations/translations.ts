@@ -184,9 +184,9 @@ export const translations = {
     trainerName: 'ميلاف البقمي',
     trainerRole: 'مدربة خبيرة',
     trainerBio: 'مدربة خبيرة ومحترفة حاصلة على عدة جوائز في مجال التدريب والتطوير، متخصصة في تصميم البرامج التدريبية المبتكرة، تمتلك خبرة واسعة في إعداد المدربين وتطوير المهارات القيادية، ساهمت في تدريب مئات المتدربين وتحقيق نتائج متميزة في البرامج التدريبية',
-    designerName: 'شهد الظفيري',
-    designerRole: 'خبيرة التصميم',
-    designerBio: 'محترفة وخبيرة في التصميم، قائدة نادي الفيزياء بجامعتها سابقاً، باحثة ومشاركة في هاكاثونات مثل جسر بمسار البترول وعلوم الأرض KFUPM ومدرسة أقران، متطوعة بأكثر من 200 ساعة تطوعية بقسم التصميم',
+    designerName: 'غزلان عيادة',
+    designerRole: 'متسابقة ماهرة',
+    designerBio: 'فائزة بعدة هاكاثونات، شغوفة بالتحدي والابتكار، تمتلك خبرة مميزة في التصميم وتطوير الحلول الإبداعية التي تواكب احتياجات المجتمع، تسهم في توجيه الفرق الشابة وإلهامهم لصناعة أثر بصري وابتكاري متجدد',
     
     // Home Page Features Section
     whyChooseUs: 'لماذا تختار مبادرة هيمنة النجاح؟',
@@ -364,7 +364,7 @@ export const translations = {
     academicLeader: 'Academic Excellence Leader',
     programManager: 'Program Manager',
     expertTrainer: 'Expert Trainer',
-    designExpert: 'Design Expert',
+    designExpert: 'Skilled Competitor',
 
     // Programs Page
     programsTitle: 'Our Training Programs',
@@ -445,9 +445,9 @@ export const translations = {
     trainerName: 'Milaf Al-Baqmi',
     trainerRole: 'Expert Trainer',
     trainerBio: 'Expert and professional trainer with several awards in training and development, specialized in designing innovative training programs, with extensive experience in trainer preparation and leadership skills development, contributed to training hundreds of trainees and achieving outstanding results in training programs',
-    designerName: 'Shahd Al-Dhafiri',
-    designerRole: 'Design Expert',
-    designerBio: 'Professional and expert in design, former physics club leader at her university, researcher and participant in hackathons like Jisr in petroleum and earth sciences KFUPM and Aqran school, volunteered over 200 hours in the design department',
+    designerName: 'Ghazlan Ayadah',
+    designerRole: 'Skilled Competitor',
+    designerBio: 'Winner of multiple hackathons, passionate about challenge and innovation, with standout experience in design and building creative solutions that meet community needs, actively mentors youth teams and inspires them to create lasting visual and innovative impact',
 
     // Blog Page
     blogTitle: 'Our Blog',
