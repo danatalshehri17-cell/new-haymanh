@@ -16,4 +16,9 @@ services:
         sync: false
       - key: CORS_ORIGIN
         sync: false
+  - type: static
+    name: haymanh-frontend
+    rootDir: haymanh-success
+    buildCommand: npm install && npm run build
+    staticPublishPath: build
 
