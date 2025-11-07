@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const LoginContainer = styled.div`
@@ -73,6 +73,8 @@ const QuickLogin = () => {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const redirectPath = (location.state as { from?: { pathname: string } } | undefined)?.from?.pathname || '/admin';
 
   const handleQuickLogin = async () => {
     setLoading(true);
@@ -97,7 +99,7 @@ const QuickLogin = () => {
         await login('mbadrt04@gmail.com', 'Admin123!@#');
         
         // الانتقال مباشرة إلى لوحة الإدارة
-        navigate('/admin');
+        navigate(redirectPath, { replace: true });
       } else {
         alert('خطأ في تسجيل الدخول: ' + data.message);
       }

@@ -22,6 +22,7 @@ import Community from './pages/Community';
 import OpportunitySelector from './pages/OpportunitySelector';
 import { AdminPanel, ContentEditor, QuickLogin } from './admin';
 import OpportunitiesManagement from './admin/pages/OpportunitiesManagement';
+import AdminRoute from './components/AdminRoute';
 
 
 const AppContent = () => {
@@ -49,9 +50,30 @@ const AppContent = () => {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/community" element={<Community />} />
                     <Route path="/quick-login" element={<QuickLogin />} />
-                    <Route path="/admin" element={<AdminPanel />} />
-                    <Route path="/admin/edit/:pageId" element={<ContentEditor />} />
-                    <Route path="/admin/opportunities" element={<OpportunitiesManagement />} />
+                    <Route
+                      path="/admin"
+                      element={(
+                        <AdminRoute>
+                          <AdminPanel />
+                        </AdminRoute>
+                      )}
+                    />
+                    <Route
+                      path="/admin/edit/:pageId"
+                      element={(
+                        <AdminRoute>
+                          <ContentEditor />
+                        </AdminRoute>
+                      )}
+                    />
+                    <Route
+                      path="/admin/opportunities"
+                      element={(
+                        <AdminRoute>
+                          <OpportunitiesManagement />
+                        </AdminRoute>
+                      )}
+                    />
                   </Routes>
                 </main>
                 <Footer />

@@ -12,6 +12,18 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-size: var(--base-font-size, 16px);
     scroll-behavior: smooth;
+
+    @media (max-width: 1024px) {
+      font-size: 15.5px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 15px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 14.5px;
+    }
   }
 
   body {
@@ -22,6 +34,23 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.background};
     direction: rtl;
     transition: font-size 0.3s ease;
+  }
+
+  main {
+    padding-top: 90px;
+    min-height: 60vh;
+
+    @media (max-width: 1024px) {
+      padding-top: 82px;
+    }
+
+    @media (max-width: 768px) {
+      padding-top: 74px;
+    }
+
+    @media (max-width: 480px) {
+      padding-top: 68px;
+    }
   }
 
   * {
@@ -39,14 +68,38 @@ const GlobalStyle = createGlobalStyle`
 
   h1 {
     font-size: ${({ theme }) => theme.fontSizes.display};
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      font-size: ${({ theme }) => `calc(${theme.fontSizes.display} * 0.76)`};
+    }
+
+    @media (max-width: 480px) {
+      font-size: ${({ theme }) => `calc(${theme.fontSizes.display} * 0.68)`};
+    }
   }
 
   h2 {
     font-size: ${({ theme }) => theme.fontSizes.xxxl};
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      font-size: ${({ theme }) => `calc(${theme.fontSizes.xxxl} * 0.78)`};
+    }
+
+    @media (max-width: 480px) {
+      font-size: ${({ theme }) => `calc(${theme.fontSizes.xxxl} * 0.7)`};
+    }
   }
 
   h3 {
     font-size: ${({ theme }) => theme.fontSizes.xxl};
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      font-size: ${({ theme }) => `calc(${theme.fontSizes.xxl} * 0.8)`};
+    }
+
+    @media (max-width: 480px) {
+      font-size: ${({ theme }) => `calc(${theme.fontSizes.xxl} * 0.72)`};
+    }
   }
 
   p {
@@ -85,6 +138,7 @@ const GlobalStyle = createGlobalStyle`
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 ${({ theme }) => theme.spacing.md};
+    width: 100%;
   }
 
   .section {
@@ -134,6 +188,11 @@ const GlobalStyle = createGlobalStyle`
     
     .section {
       padding: ${({ theme }) => theme.spacing.xl} 0;
+    }
+
+    .d-flex {
+      flex-direction: column;
+      gap: ${({ theme }) => theme.spacing.md};
     }
   }
 `;
