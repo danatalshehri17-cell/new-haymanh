@@ -371,9 +371,11 @@ const Header = () => {
                 <NavLink to="/dashboard" $isActive={location.pathname === '/dashboard'}>
                   {t('dashboard')}
                 </NavLink>
-                <NavLink to="/admin" $isActive={location.pathname === '/admin'}>
-                  🎛️ لوحة الإدارة
-                </NavLink>
+                {user?.role === 'admin' && (
+                  <NavLink to="/admin" $isActive={location.pathname.startsWith('/admin')}>
+                    🎛️ لوحة الإدارة
+                  </NavLink>
+                )}
                 <UserMenu>
                   <UserAvatar>{user?.avatar}</UserAvatar>
                   <UserName>{user?.name}</UserName>
