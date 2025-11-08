@@ -3,16 +3,16 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 const Container = styled.div`
-  padding-top: 90px;
+  padding-top: 84px;
   direction: rtl;
   background: #f8fafc;
 
   @media (max-width: 1024px) {
-    padding-top: 80px;
+    padding-top: 76px;
   }
 
   @media (max-width: 768px) {
-    padding-top: 72px;
+    padding-top: 70px;
   }
 
   @media (max-width: 480px) {
@@ -41,21 +41,21 @@ const Inner = styled.div`
 const Hero = styled.section`
   background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
   color: white;
-  padding: 4rem 0;
+  padding: 3.5rem 0;
   text-align: center;
   border-radius: 0 0 32px 32px;
 
   @media (max-width: 1024px) {
-    padding: 3.5rem 0;
+    padding: 3.2rem 0;
   }
 
   @media (max-width: 768px) {
-    padding: 3rem 0;
+    padding: 2.75rem 0;
     border-radius: 0 0 24px 24px;
   }
 
   @media (max-width: 480px) {
-    padding: 2.5rem 0;
+    padding: 2.3rem 0;
     border-radius: 0 0 18px 18px;
   }
 `;
