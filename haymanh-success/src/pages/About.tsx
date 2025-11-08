@@ -5,23 +5,56 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const AboutContainer = styled.div`
-  padding-top: 80px;
+  padding-top: 86px;
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    padding-top: 78px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding-top: 72px;
+  }
+
+  @media (max-width: 480px) {
+    padding-top: 66px;
+  }
 `;
 
 const HeroSection = styled.section`
-  background: linear-gradient(135deg, 
-    ${({ theme }) => theme.colors.background} 0%, 
-    ${({ theme }) => theme.colors.surface} 100%);
-  padding: ${({ theme }) => theme.spacing.xxxl} 0;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.background} 0%,
+    ${({ theme }) => theme.colors.surface} 100%
+  );
+  padding: ${({ theme }) => theme.spacing.xxxl} 0 ${({ theme }) => theme.spacing.xxl};
   text-align: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    padding: ${({ theme }) => theme.spacing.xxxl} 0 ${({ theme }) => theme.spacing.xl};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.xxl} 0 ${({ theme }) => theme.spacing.lg};
+  }
+
+  @media (max-width: 480px) {
+    padding: ${({ theme }) => theme.spacing.xl} 0 ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 const HeroTitle = styled(motion.h1)`
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.fontSizes.xxl};
+  }
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSizes.xl};
+  }
 `;
 
 const HeroSubtitle = styled(motion.p)`
@@ -31,6 +64,17 @@ const HeroSubtitle = styled(motion.p)`
   margin: 0 auto;
   line-height: 1.6;
   font-weight: 600;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.fontSizes.lg};
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    padding: 0 1rem;
+    line-height: 1.8;
+  }
 `;
 
 const ContentSection = styled.section`
@@ -161,11 +205,11 @@ const TeamGrid = styled.div`
   white-space: nowrap;
   animation: scroll 20s linear infinite;
   width: 100%;
-  
+
   &:hover {
     animation-play-state: paused;
   }
-  
+
   @keyframes scroll {
     0% {
       transform: translateX(100%);
@@ -173,6 +217,17 @@ const TeamGrid = styled.div`
     100% {
       transform: translateX(-100%);
     }
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    animation: none;
+    overflow-x: auto;
+    white-space: normal;
+    scroll-snap-type: x mandatory;
+    gap: ${({ theme }) => theme.spacing.lg};
+    padding-bottom: ${({ theme }) => theme.spacing.md};
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
 `;
 
@@ -193,12 +248,20 @@ const TeamCard = styled(motion.div)`
     transform: translateY(-5px);
     box-shadow: ${({ theme }) => theme.shadows.medium};
   }
-  
+
   @media (max-width: 768px) {
     width: 280px;
     min-width: 280px;
     min-height: 350px;
     margin-right: 1.5rem;
+    scroll-snap-align: center;
+  }
+
+  @media (max-width: 480px) {
+    width: 260px;
+    min-width: 260px;
+    min-height: 320px;
+    margin-right: 1rem;
   }
 `;
 
