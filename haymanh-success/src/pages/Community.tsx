@@ -1,10 +1,9 @@
 import React, { useState, FormEvent } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import PageLayout from '../styles/PageLayout';
 
-const CommunityContainer = styled.div`
-  padding-top: 80px;
-`;
+const CommunityContainer = styled(PageLayout)``;
 
 const HeroSection = styled.section`
   background: linear-gradient(135deg, #4C1D95 0%, #DC2626 100%);

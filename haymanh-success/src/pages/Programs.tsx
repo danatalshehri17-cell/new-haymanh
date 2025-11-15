@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
+import PageLayout from '../styles/PageLayout';
 
-const ProgramsContainer = styled.div`
-  padding-top: 80px;
-`;
+const ProgramsContainer = styled(PageLayout)``;
 
 const HeroSection = styled.section`
   background: linear-gradient(135deg, 

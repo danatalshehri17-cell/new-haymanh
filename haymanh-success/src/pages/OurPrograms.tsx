@@ -1,23 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import PageLayout from "../styles/PageLayout";
 
-const Container = styled.div`
-  padding-top: 84px;
+const Container = styled(PageLayout)`
   direction: rtl;
   background: #f8fafc;
-
-  @media (max-width: 1024px) {
-    padding-top: 76px;
-  }
-
-  @media (max-width: 768px) {
-    padding-top: 70px;
-  }
-
-  @media (max-width: 480px) {
-    padding-top: 64px;
-  }
 `;
 
 const Inner = styled.div`
@@ -41,21 +29,21 @@ const Inner = styled.div`
 const Hero = styled.section`
   background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
   color: white;
-  padding: 3.5rem 0;
+  padding: 3rem 0 3.2rem;
   text-align: center;
   border-radius: 0 0 32px 32px;
 
   @media (max-width: 1024px) {
-    padding: 3.2rem 0;
+    padding: 2.8rem 0 3rem;
   }
 
   @media (max-width: 768px) {
-    padding: 2.75rem 0;
+    padding: 2.4rem 0 2.6rem;
     border-radius: 0 0 24px 24px;
   }
 
   @media (max-width: 480px) {
-    padding: 2.3rem 0;
+    padding: 2rem 0 2.2rem;
     border-radius: 0 0 18px 18px;
   }
 `;

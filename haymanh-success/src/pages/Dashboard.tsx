@@ -3,12 +3,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import PageLayout from '../styles/PageLayout';
 
 // Styled Components
-const DashboardContainer = styled.div`
+const DashboardContainer = styled(PageLayout)`
   min-height: 100vh;
   background: linear-gradient(135deg, #1E3A8A 0%, #E11D48 100%);
-  padding: 4rem 0 2rem 0;
+  padding: 0 0 2rem 0;
   direction: rtl;
 `;
 

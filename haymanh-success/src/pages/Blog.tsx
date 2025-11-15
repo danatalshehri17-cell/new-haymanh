@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import SearchBar from '../components/SearchBar';
+import PageLayout from '../styles/PageLayout';
 
 interface BlogPost {
   id: string;
@@ -35,8 +36,7 @@ interface Comment {
   replies: Comment[];
 }
 
-const BlogContainer = styled.div`
-  padding-top: 80px;
+const BlogContainer = styled(PageLayout)`
   direction: rtl;
 `;
 

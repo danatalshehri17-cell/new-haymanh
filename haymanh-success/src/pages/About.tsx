@@ -3,24 +3,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import PageLayout from '../styles/PageLayout';
 
-const AboutContainer = styled.div`
-  padding-top: 86px;
+const AboutContainer = styled(PageLayout)`
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    padding-top: 78px;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding-top: 72px;
-  }
-
-  @media (max-width: 480px) {
-    padding-top: 66px;
-  }
 `;
 
 const HeroSection = styled.section`

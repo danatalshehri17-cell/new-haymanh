@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import PageLayout from '../styles/PageLayout';
 
-const NewsContainer = styled.div`
-  padding-top: 80px;
-`;
+const NewsContainer = styled(PageLayout)``;
 
 const HeroSection = styled.section`
   background: linear-gradient(135deg, 

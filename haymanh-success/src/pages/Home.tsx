@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import AuthModal from '../components/AuthModal';
+import PageLayout from '../styles/PageLayout';
 
 // Animated Counter Component
 const AnimatedCounter = ({ value, suffix = "", duration = 2 }: { value: number; suffix?: string; duration?: number }) => {
@@ -152,9 +153,7 @@ const bounceAnimation = {
   }
 };
 
-const HomeContainer = styled.div`
-  padding-top: 80px;
-`;
+const HomeContainer = styled(PageLayout)``;
 
 const HeroSection = styled(motion.section)`
   background: linear-gradient(135deg, #4C1D95 0%, #DC2626 100%);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import PageLayout from '../styles/PageLayout';
 
 // Type definitions for styled components
 interface FilterButtonProps {
@@ -24,9 +25,7 @@ interface MessageContainerProps {
   type: 'success' | 'error';
 }
 
-const OpportunitiesContainer = styled.div`
-  padding-top: 80px;
-`;
+const OpportunitiesContainer = styled(PageLayout)``;
 
 const HeroSection = styled.section`
   background: linear-gradient(135deg, 

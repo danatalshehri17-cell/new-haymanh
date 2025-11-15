@@ -1,10 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import PageLayout from '../styles/PageLayout';
 
-const ContactContainer = styled.div`
-  padding-top: 80px;
-`;
+const ContactContainer = styled(PageLayout)``;
 
 const HeroSection = styled.section`
   background: linear-gradient(135deg, 
